@@ -127,10 +127,11 @@ public class GigCommand implements CommandExecutor, TabCompleter {
      */
     private boolean handleList(Player player, String[] args) {
         // Парсим номер страницы (по умолчанию 1)
+        // args[0] = "list", args[1] = page number
         int pageValue = 1;
-        if (args.length > 0) {
+        if (args.length > 1) {
             try {
-                int parsedPage = Integer.parseInt(args[0]);
+                int parsedPage = Integer.parseInt(args[1]);
                 if (parsedPage < 1) parsedPage = 1;
                 pageValue = parsedPage;
             } catch (NumberFormatException e) {
@@ -637,27 +638,27 @@ public class GigCommand implements CommandExecutor, TabCompleter {
      */
     private boolean handleHelp(Player player) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-header")));
+                plugin.getLocaleManager().getMessage("help.header")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-help")));
+                plugin.getLocaleManager().getMessage("help.help")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-create")));
+                plugin.getLocaleManager().getMessage("help.create")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-list")));
+                plugin.getLocaleManager().getMessage("help.list")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-my")));
+                plugin.getLocaleManager().getMessage("help.my")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-accept")));
+                plugin.getLocaleManager().getMessage("help.accept")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-complete")));
+                plugin.getLocaleManager().getMessage("help.complete")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-cancel")));
+                plugin.getLocaleManager().getMessage("help.confirm")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-info")));
+                plugin.getLocaleManager().getMessage("help.cancel")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("help-reputation")));
+                plugin.getLocaleManager().getMessage("help.info")));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("footer")));
+                plugin.getLocaleManager().getMessage("help.reputation")));
         return true;
     }
     

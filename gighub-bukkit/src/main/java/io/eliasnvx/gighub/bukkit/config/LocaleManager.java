@@ -72,6 +72,7 @@ public class LocaleManager {
         if (!file.exists()) {
             plugin.saveResource("lang/" + fileName, false);
         }
+        // УБРАЛИ ПЕРЕЗАПИСЬ - больше не затираем кастомные файлы
     }
 
     /**
@@ -91,14 +92,20 @@ public class LocaleManager {
         }
         
         if (config == null) {
+            plugin.getLogger().warning("[LocaleManager] Config is null for locale: " + locale);
             return key; // Возвращаем ключ если локализация не найдена
         }
 
-        // 1) Сначала пробуем найти в разделе messages.
-        String message = config.getString("messages." + key);
-        // 2) Если не найдено, пробуем на верхнем уровне (обратная совместимость).
+        // Новая структура: ищем ключ напрямую (без префикса messages)
+        String message = config.getString(key);
+        
+        // Fallback: пробуем старую структуру с префиксом messages
         if (message == null) {
-            message = config.getString(key);
+            message = config.getString("messages." + key);
+        }
+        
+        if (message == null) {
+            plugin.getLogger().warning("[LocaleManager] Key not found: '" + key + "' for locale: " + locale);
         }
         // 3) Если всё ещё не найдено, пробуем взять из ресурсов jar напрямую
         if (message == null) {
@@ -152,7 +159,7 @@ public class LocaleManager {
      * Получает локализованное название типа контракта
      */
     public String getContractTypeName(String locale, String contractType) {
-        return getMessage(locale, "contract.types." + contractType);
+        return getMessage(locale, "contract-types." + contractType);
     }
 
     /**

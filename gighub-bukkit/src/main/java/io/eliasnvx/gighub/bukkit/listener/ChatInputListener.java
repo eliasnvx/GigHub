@@ -86,11 +86,27 @@ public class ChatInputListener implements Listener {
             builder.setInputStep(null);
             disableInputMode(player.getUniqueId()); // Disable input mode
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getLocaleManager().getMessage("chat-input-cancelled")));
+                    plugin.getLocaleManager().getMessage("chat-input.cancelled")));
             
-            // Reopen GUI
+            // Reopen GUI with current data
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                plugin.getGUIManager().openContractCreation(player);
+                try {
+                    // Get the existing GUI and refresh it directly
+                    ContractCreationGUI contractGui = plugin.getGUIManager().getContractCreationGUI(player);
+                    if (contractGui != null) {
+                        ContractCreationGUI.ContractBuilder currentBuilder = contractGui.getBuilder(player.getUniqueId());
+                        if (currentBuilder != null) {
+                            plugin.getLogger().info("[ChatInput] Refreshing GUI after cancellation...");
+                            contractGui.fillInventory(currentBuilder);
+                            player.openInventory(contractGui.getInventory());
+                        }
+                    } else {
+                        plugin.getLogger().warning("[ChatInput] No existing GUI found after cancellation!");
+                    }
+                } catch (Exception ex) {
+                    plugin.getLogger().severe("Error reopening GUI after cancellation: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
             });
             return;
         }
@@ -106,14 +122,14 @@ public class ChatInputListener implements Listener {
                     plugin.getLogger().info("[ChatInput] Processing TITLE case");
                     if (message.length() > 100) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-title-too-long")));
+                                plugin.getLocaleManager().getMessage("chat-input.title-too-long")));
                         return;
                     }
                     builder.setTitle(message);
                     builder.setInputStep(null);
                     disableInputMode(player.getUniqueId()); // Disable input mode
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getLocaleManager().getMessage("chat-input-title-set")
+                            plugin.getLocaleManager().getMessage("chat-input.title-set")
                                     .replace("{title}", message)));
                     plugin.getLogger().info("[ChatInput] TITLE case completed, breaking");
                     break;
@@ -124,7 +140,7 @@ public class ChatInputListener implements Listener {
                     int maxLength = plugin.getConfig().getInt("contracts.max-description-length", 500);
                     if (message.length() > maxLength) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-description-too-long")
+                                plugin.getLocaleManager().getMessage("chat-input.description-too-long")
                                         .replace("{max}", String.valueOf(maxLength))));
                         return;
                     }
@@ -132,7 +148,7 @@ public class ChatInputListener implements Listener {
                     builder.setInputStep(null);
                     disableInputMode(player.getUniqueId()); // Disable input mode
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getLocaleManager().getMessage("chat-input-description-set")));
+                            plugin.getLocaleManager().getMessage("chat-input.description-set")));
                     plugin.getLogger().info("[ChatInput] DESCRIPTION case completed, breaking");
                     break;
                 }
@@ -148,7 +164,7 @@ public class ChatInputListener implements Listener {
                         
                         if (reward < minReward || reward > maxReward) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    plugin.getLocaleManager().getMessage("chat-input-reward-range")
+                                    plugin.getLocaleManager().getMessage("chat-input.reward-range")
                                             .replace("{min}", String.format("%.2f", minReward))
                                             .replace("{max}", String.format("%.2f", maxReward))));
                             return;
@@ -158,13 +174,13 @@ public class ChatInputListener implements Listener {
                         builder.setInputStep(null);
                         disableInputMode(player.getUniqueId()); // Disable input mode
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-reward-set")
+                                plugin.getLocaleManager().getMessage("chat-input.reward-set")
                                         .replace("{amount}", String.format("%.2f", reward))));
                         plugin.getLogger().info("[ChatInput] REWARD case completed, breaking");
                         break;
                     } catch (NumberFormatException e) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-reward-invalid")));
+                                plugin.getLocaleManager().getMessage("chat-input.reward-invalid")));
                         return;
                     }
                 }
@@ -176,7 +192,7 @@ public class ChatInputListener implements Listener {
                         
                         if (hours < 1 || hours > 168) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    plugin.getLocaleManager().getMessage("chat-input-deadline-range")));
+                                    plugin.getLocaleManager().getMessage("chat-input.deadline-range")));
                             return;
                         }
                         
@@ -184,13 +200,13 @@ public class ChatInputListener implements Listener {
                         builder.setInputStep(null);
                         disableInputMode(player.getUniqueId()); // Disable input mode
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-deadline-set")
+                                plugin.getLocaleManager().getMessage("chat-input.deadline-set")
                                         .replace("{hours}", String.valueOf(hours))));
                         plugin.getLogger().info("[ChatInput] DEADLINE case completed, breaking");
                         break;
                     } catch (NumberFormatException e) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getLocaleManager().getMessage("chat-input-deadline-invalid")));
+                                plugin.getLocaleManager().getMessage("chat-input.deadline-invalid")));
                         return;
                     }
                 }
@@ -208,12 +224,20 @@ public class ChatInputListener implements Listener {
                         return;
                     }
                     
-                    // Use GUIManager to reopen GUI
-                    plugin.getGUIManager().openContractCreation(player);
+                    // Get the updated GUI and refresh it with current builder data
+                    ContractCreationGUI contractGui = plugin.getGUIManager().getContractCreationGUI(player);
+                    if (contractGui != null) {
+                        ContractCreationGUI.ContractBuilder currentBuilder = contractGui.getBuilder(player.getUniqueId());
+                        if (currentBuilder != null) {
+                            plugin.getLogger().info("[ChatInput] Refreshing GUI with updated data...");
+                            contractGui.fillInventory(currentBuilder);
+                            player.openInventory(contractGui.getInventory());
+                        }
+                    }
                     plugin.getLogger().info("[ChatInput] GUI opened successfully for " + player.getName());
                 } catch (Exception ex) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getLocaleManager().getMessage("chat-input-gui-error")
+                            plugin.getLocaleManager().getMessage("chat-input.gui-error")
                                     .replace("{error}", ex.getMessage())));
                     plugin.getLogger().severe("Error opening GUI after input: " + ex.getMessage());
                     ex.printStackTrace();
@@ -222,7 +246,7 @@ public class ChatInputListener implements Listener {
             
         } catch (Exception e) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getLocaleManager().getMessage("chat-input-error")
+                    plugin.getLocaleManager().getMessage("chat-input.error")
                             .replace("{error}", e.getMessage())));
             builder.setInputStep(null);
             disableInputMode(player.getUniqueId());

@@ -18,7 +18,7 @@
 - **Create Contracts**: Players can create various types of contracts with custom requirements
 - **Accept & Complete**: Accept contracts from other players and mark them as completed
 - **Escrow System**: Secure payment handling with automatic escrow management
-- **Verification Process**: Contract completion verification with manual/auto-verify options
+- **Verification Process**: Contract completion verification with manual/autoverify options
 
 ### 🎯 Contract Types
 - **Item Requests**: Gather and deliver specific items
@@ -235,7 +235,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Credits
 
-- **Lead Developer**: [EliasNVX](https://github.com/eliasnvx)
+- **Lead Developer**: [eliasnvx](https://github.com/eliasnvx)
 - **Contributors**: [All contributors](https://github.com/eliasnvx/GigHub/graphs/contributors)
 - **Special Thanks**: The Minecraft plugin development community
 

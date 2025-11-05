@@ -1,348 +1,149 @@
-# Русский (RU) Language File for GigHub
-
-# Префикс
 prefix: "&8[&6GigHub&8]"
 
-# Общие сообщения
-messages:
-  reload-success: "{prefix} &aКонфигурация перезагружена!"
-  no-permission: "{prefix} &cУ вас нет прав для этого действия!"
-  player-only: "{prefix} &cЭта команда доступна только игрокам!"
-  invalid-usage: "{prefix} &cНеправильное использование! Используйте: &e{usage}"
-  error: "{prefix} &cПроизошла ошибка. Попробуйте позже."
-  unknown-command: "{prefix} &cНеизвестная команда. Используйте &e/gig help"
-  player-not-found: "{prefix} &cИгрок не найден!"
-  contract-not-found: "{prefix} &cКонтракт не найден!"
-  invalid-contract-id: "{prefix} &cНеверный ID контракта!"
-  failed-to-load-contract: "{prefix} &cНе удалось загрузить информацию о контракте!"
+# General Messages
+general:
+  no-permission: "{prefix} &cУ вас нет прав для использования этой команды!"
+  player-only: "{prefix} &cЭту команду может использовать только игрок!"
+  invalid-usage: "{prefix} &cНеверное использование! {usage}"
+  unknown-command: "{prefix} &cНеизвестная подкоманда!"
 
-  # GUI создания контракта
-  gui-creation-type: "&eТип контракта: {type}"
-  gui-creation-type-not-selected: "&eТип контракта: &7Не выбран"
-  gui-creation-title: "&eНазвание: {title}"
-  gui-creation-title-not-set: "&eНазвание: &7Не указано"
-  gui-creation-description: "&eОписание: {description}"
-  gui-creation-description-not-set: "&eОписание: &7Не указано"
-  gui-creation-reward: "&eНаграда: {reward}"
-  gui-creation-reward-not-set: "&eНаграда: &7Не указана"
-  gui-creation-deadline: "&eСрок: {deadline}"
-  gui-creation-deadline-not-set: "&eСрок: &7Не указан"
-  gui-creation-location: "&eЛокация: {location}"
-  gui-creation-location-not-set: "&eЛокация: &7Не указана"
-  gui-creation-click-title: "&7Нажмите для ввода названия"
-  gui-creation-click-description: "&7Нажмите для ввода описания"
-  gui-creation-click-reward: "&7Нажмите для ввода награды"
-  gui-creation-click-deadline: "&7Нажмите для ввода срока"
-  gui-creation-click-location: "&7Нажмите для установки локации"
-  gui-creation-submit: "&aСоздать контракт"
-  gui-creation-submit-ready: "&7Все поля заполнены!"
-  gui-creation-submit-disabled: "&cСоздать контракт"
-  gui-creation-submit-not-ready: "&7Заполните все обязательные поля!"
-  gui-creation-cancel: "&cОтмена"
-  gui-creation-cancel-lore: "&7Вернуться в главное меню"
-  gui-creation-title-header: "&6Создание контракта"
-  gui-creation-select-type: "&6Выберите тип контракта"
-  gui-creation-insufficient-funds: "&cНедостаточно средств! Нужно: ${amount}"
-  gui-creation-success: "&aКонтракт успешно создан! ID: {id}"
-  gui-creation-error: "&cОшибка при создании контракта: {error}"
-  gui-creation-fill-required: "&cЗаполните все обязательные поля!"
-  gui-creation-location-set: "&aЛокация установлена: {x}, {y}, {z}"
-  gui-creation-enter-title: "&eВведите название контракта в чат:"
-  gui-creation-enter-description: "&eВведите описание контракта в чат:"
-  gui-creation-enter-reward: "&eВведите награду в чате:"
-  gui-creation-enter-deadline: "&eВведите срок выполнения в днях:"
-  chat-input-cancelled: "&cВвод отменен."
-  chat-input-title-too-long: "&cНазвание слишком длинное! Максимум 100 символов."
-  chat-input-title-set: "&a✓ Название установлено: {title}"
-  chat-input-description-too-long: "&cОписание слишком длинное! Максимум {max} символов."
-  chat-input-description-set: "&a✓ Описание установлено"
-  chat-input-reward-invalid: "&cНеверный формат! Введите число (например: 1000)"
-  chat-input-reward-range: "&cНаграда должна быть от ${min} до ${max}"
-  chat-input-reward-set: "&a✓ Награда установлена: ${amount}"
-  chat-input-deadline-invalid: "&cНеверный формат! Введите целое число часов (например: 48)"
-  chat-input-deadline-range: "&cДедлайн должен быть от 1 до 168 часов (7 дней)"
-  chat-input-deadline-set: "&a✓ Дедлайн установлен: {hours} часов"
-  chat-input-error: "&cОшибка обработки ввода: {error}"
-  chat-input-gui-error: "&cОшибка открытия GUI: {error}"
-  
-# Сообщения об успехе
-  contract-accepted-success: "&a[GigHub] Контракт успешно принят!"
-  contract-completed-success: "&a[GigHub] Контракт отмечен как завершенный!"
-  waiting-verification: "&7Ожидание подтверждения владельца..."
-  contract-confirmed-success: "&a[GigHub] Контракт подтвержден и оплата отправлена!"
-  contract-cancelled-success: "&a[GigHub] Контракт успешно отменен!"
-  contract-verified-success: "&a[GigHub] Контракт подтвержден! Оплата отправлена."
-  filters-reset: "&a[GigHub] &fФильтры сброшены по умолчанию"
-  
-  # Мои контракты
-  loading-contracts: "{prefix} &eЗагрузка ваших контрактов..."
-  my-contracts-header: "&6&m          &r &6Мои контракты &6&m          "
-  as-owner: "&eКак заказчик:"
-  as-contractor: "&eКак исполнитель:"
-  no-active-contracts: "&7У вас нет активных контрактов."
-  footer: "&6&m                                    "
-  
-  # Детали контракта
-  contract-details-header: "&6&m          &r &6Детали контракта &6&m          "
-  contract-id: "&eID: &7#{id}"
-  contract-title: "&eНазвание: &f{title}"
-  contract-description: "&eОписание: &7{description}"
-  contract-type: "&eТип: &b{type}"
-  contract-reward: "&eНаграда: &a${reward}"
-  contract-status: "&eСтатус: {status}"
-  contract-owner: "&eЗаказчик: &f{owner}"
-  contract-contractor: "&eИсполнитель: &f{contractor}"
-  contract-deadline: "&eДедлайн: &7{deadline} часов осталось"
-  contract-use-accept: "&7Используйте &e/gig accept {id} &7для принятия"
-  
-  # Репутация
-  reputation-header: "&6&m          &r &6Репутация &6&m          "
-  reputation-player: "&eИгрок: &f{player}"
-  reputation-rating: "&eРейтинг: &6{rating} &e⭐"
-  reputation-completed: "&eВыполнено: &a{completed}"
-  reputation-failed: "&eПровалено: &c{failed}"
-  reputation-success-rate: "&eУспешность: &a{successRate}"
-  reputation-points: "&eОчки: &f{points}"
-  reputation-reviews: "&eОтзывы: &f{reviews}"
-  
-  # Админские команды
-  admin-no-permission: "{prefix} &cУ вас нет прав для использования админских команд!"
-  admin-unknown-command: "{prefix} &cНеизвестная команда. Используйте &e/gigadmin help"
-  admin-reloading: "{prefix} &eПерезагрузка конфигурации..."
-  admin-reload-success: "{prefix} &aКонфигурация перезагружена!"
-  admin-reload-failed: "{prefix} &cНе удалось перезагрузить конфигурацию: {error}"
-  admin-loading-stats: "{prefix} &eЗагрузка статистики..."
-  admin-stats-header: "&6&m          &r &6Статистика GigHub &6&m          "
-  admin-active-contracts: "&eАктивные контракты: &f{count}"
-  admin-database-status: "&eБаза данных: &f{status}"
-  admin-economy-status: "&eЭкономика: &f{status}"
-  admin-permissions-status: "&eПрава: &f{plugin}"
-  admin-usage-cancel: "{prefix} &cИспользование: &e/gigadmin cancel <contract-id>"
-  admin-cancelling: "{prefix} &eОтмена контракта..."
-  admin-cancel-success: "{prefix} &aКонтракт успешно отменен!"
-  admin-cancel-failed: "{prefix} &cНе удалось отменить контракт."
-  admin-usage-verify: "{prefix} &cИспользование: &e/gigadmin verify <contract-id>"
-  admin-verifying: "{prefix} &eПроверка контракта..."
-  admin-verify-success: "{prefix} &aКонтракт успешно проверен!"
-  admin-verify-failed: "{prefix} &cНе удалось проверить контракт."
-  admin-usage-setreputation: "{prefix} &cИспользование: &e/gigadmin setreputation <player> <rating>"
-  admin-rating-range: "{prefix} &cРейтинг должен быть между 1.0 и 5.0!"
-  admin-setting-reputation: "{prefix} &eУстановка репутации..."
-  admin-setreputation-success: "{prefix} &aРепутация установлена {rating} для {player}"
-  admin-setreputation-failed: "{prefix} &cНе удалось установить репутацию."
-  admin-invalid-rating: "{prefix} &cНеверный рейтинг! Должен быть числом между 1.0 и 5.0"
-  admin-usage-resetreputation: "{prefix} &cИспользование: &e/gigadmin resetreputation <player>"
-  admin-resetting-reputation: "{prefix} &eСброс репутации..."
-  admin-resetreputation-success: "{prefix} &aРепутация сброшена для {player}"
-  admin-resetreputation-failed: "{prefix} &cНе удалось сбросить репутацию."
-  admin-starting-cleanup: "{prefix} &eНачало очистки просроченных контрактов..."
-  admin-cleanup-success: "{prefix} &aОчищено {count} просроченных контрактов!"
-  admin-count-range: "{prefix} &cКоличество должно быть между 1 и 20!"
-  admin-invalid-number: "{prefix} &cНеверное число!"
-  admin-creating-testdata: "{prefix} &eСоздание {count} тестовых контрактов..."
-  admin-testdata-success: "{prefix} &aСоздано {created} тестовых контрактов!"
-  admin-testdata-hint: "&7Используйте &e/gig list &7для просмотра"
-  admin-testdata-failed: "{prefix} &cНе удалось создать тестовые контракты!"
-  admin-recreating-schema: "{prefix} &cПересоздание схемы базы данных (DROP + CREATE)..."
-  admin-schema-success: "{prefix} &aСхема базы данных успешно пересоздана!"
-  admin-schema-failed: "{prefix} &cНе удалось пересоздать схему!"
-  admin-help-header: "&6&m          &r &6Админские команды GigHub &6&m          "
-  admin-help-reload: "&e/gigadmin reload &7- Перезагрузить конфигурацию"
-  admin-help-stats: "&e/gigadmin stats &7- Просмотреть статистику плагина"
-  admin-help-cancel: "&e/gigadmin cancel <id> &7- Отменить любой контракт"
-  admin-help-verify: "&e/gigadmin verify <id> &7- Принудительно проверить контракт"
-  admin-help-setreputation: "&e/gigadmin setreputation <player> <rating> &7- Установить рейтинг игрока"
-  admin-help-resetreputation: "&e/gigadmin resetreputation <player> &7- Сбросить репутацию игрока"
-  admin-help-cleanup: "&e/gigadmin cleanup &7- Очистить просроченные контракты"
-  admin-help-testdata: "&e/gigadmin testdata [count] &7- Создать тестовые контракты (1-20)"
-  admin-help-cleardata: "&e/gigadmin cleardata &7- &cОчистить ВСЕ данные из базы данных"
-  
-  # Команды GigHub
-  help-header: "&6&m          &r &6Команды GigHub &6&m          "
-  help-list: "&e/gig list &7- Просмотреть доступные контракты"
-  help-my: "&e/gig my &7- Просмотреть ваши контракты"
-  help-accept: "&e/gig accept <id> &7- Принять контракт"
-  help-complete: "&e/gig complete <id> &7- Отметить контракт как выполненный"
-  help-confirm: "&e/gig confirm <id> &7- Подтвердить выполненный контракт"
-  help-cancel: "&e/gig cancel <id> &7- Отменить ваш контракт"
-  help-info: "&e/gig info <id> &7- Просмотреть детали контракта"
-  help-reputation: "&e/gig reputation [player] &7- Просмотреть статистику репутации"
-  help-create: "&e/gig create <title> <reward> <deadline> &7- Создать новый контракт"
-  help-help: "&e/gig help &7- Показать эту справку"
-  
-  # GUI сообщения
-  gui-contract-accepted: "{prefix} &aКонтракт принят!"
-  gui-contract-accepted-owner: "{prefix} &eВаш контракт приняли!"
-  gui-contract-accepted-owner-contractor: "{prefix} &eИсполнитель: &f{contractor}"
-  gui-contract-accepted-owner-title: "{prefix} &eНазвание: &f{title}"
-  gui-accept-failed: "{prefix} &cНе удалось принять контракт!"
-  gui-contract-completed: "{prefix} &aКонтракт отмечен как выполненный!"
-  gui-waiting-verification: "&7Ожидание подтверждения от заказчика..."
-  gui-contract-completed-owner: "{prefix} &eИсполнитель завершил ваш контракт!"
-  gui-contract-completed-owner-contractor: "{prefix} &eИсполнитель: &f{contractor}"
-  gui-contract-completed-owner-title: "{prefix} &eНазвание: &f{title}"
-  gui-contract-completed-owner-confirm: "{prefix} &eИспользуйте &e/gig confirm {id} &eдля подтверждения"
-  gui-complete-failed: "{prefix} &cНе удалось выполнить контракт!"
-  gui-contract-verified: "{prefix} &aКонтракт подтвержден! Деньги отправлены."
-  gui-contract-verified-contractor: "{prefix} &eЗаказчик подтвердил выполнение контракта!"
-  gui-contract-verified-contractor-owner: "{prefix} &eЗаказчик: &f{owner}"
-  gui-contract-verified-contractor-title: "{prefix} &eНазвание: &f{title}"
-  gui-contract-verified-payment: "{prefix} &eДеньги переведены на ваш счет!"
-  gui-verify-failed: "{prefix} &cНе удалось подтвердить контракт!"
-  gui-contract-cancelled: "{prefix} &aКонтракт отменен!"
-  gui-cancel-failed: "{prefix} &cНе удалось отменить контракт!"
-  gui-filters-reset: "{prefix} &aФильтры сброшены по умолчанию"
-  
-  # Listener сообщения
-  listener-completed-waiting: "{prefix} &eУ вас &a{count} &eвыполненных контракт{plural} ожидают подтверждения!"
-  listener-expired-warning: "{prefix} &cВнимание: &e{count} &eконтракт{plural} {expired}!"
-  listener-in-progress: "{prefix} &eУ вас &b{count} &eактивных контракт{plural}."
-# Команды использования
-usage:
-  accept: "{prefix} &cИспользование: &e/gig accept <contract-id>"
-  complete: "{prefix} &cИспользование: &e/gig complete <contract-id>"
-  confirm: "{prefix} &cИспользование: &e/gig confirm <contract-id>"
-  cancel: "{prefix} &cИспользование: &e/gig cancel <contract-id>"
-  info: "{prefix} &cИспользование: &e/gig info <contract-id>"
-  
-# Статусы операций
-operation:
-  accepting: "{prefix} &eПринятие контракта..."
-  completing: "{prefix} &eЗавершение контракта..."
-  confirming: "{prefix} &eПодтверждение завершения контракта..."
-  cancelling: "{prefix} &eОтмена контракта..."
-  loading-info: "{prefix} &eЗагрузка информации о контракте..."
-  
-# Ошибки операций
-operation-failed:
-  accept: "{prefix} &cНе удалось принять контракт. Проверьте, доступен ли он еще."
-  complete: "{prefix} &cНе удалось завершить контракт."
-  confirm: "{prefix} &cНе удалось подтвердить контракт. Проверьте, что вы владелец и контракт завершен."
-  cancel: "{prefix} &cНе удалось отменить контракт."
-  
-# Уведомления для игроков
-notifications:
-  contract-accepted-owner: "{prefix} &eВаш контракт приняли!"
-  contractor-info: "&eИсполнитель: &f{player}"
-  contract-title-info: "&eНазвание: &f{title}"
-  confirm-instruction: "&eИспользуйте &f/gig confirm {id} &eдля подтверждения"
-  
-  contract-completed-owner: "{prefix} &eИсполнитель завершил ваш контракт!"
-  confirm-contract: "&eИспользуйте &f/gig confirm {id} &eдля подтверждения"
-  
-  contract-confirmed-contractor: "{prefix} &eЗаказчик подтвердил выполнение контракта!"
-  client-info: "&eЗаказчик: &f{player}"
-  payment-sent: "&eДеньги переведены на ваш счет!"
-  
-  contract-creation-gui: "{prefix} &eGUI создания контрактов скоро будет доступно!"
-
-# Контракты
-contract:
-  created: "{prefix} &aКонтракт создан успешно! ID: &e{id}"
-  accepted: "{prefix} &aВы приняли контракт &e#{id}&a!"
-  completed: "{prefix} &aКонтракт выполнен! Ожидание подтверждения..."
-  verified: "{prefix} &aКонтракт подтвержден! Вы заработали &6${reward}&a!"
-  cancelled: "{prefix} &cКонтракт отменен."
-  expired: "{prefix} &cСрок действия контракта истек."
-  
-  # Ошибки
-  not-found: "{prefix} &cКонтракт не найден!"
-  already-accepted: "{prefix} &cЭтот контракт уже принят!"
-  cannot-accept-own: "{prefix} &cВы не можете принять собственный контракт!"
-  max-contracts-reached: "{prefix} &cВы достигли лимита активных контрактов! ({limit})"
-  insufficient-funds: "{prefix} &cВам нужно &6${amount}&c для создания этого контракта!"
-  invalid-type: "{prefix} &cНеверный тип контракта!"
-  title-too-long: "{prefix} &cНазвание слишком длинное! Максимум {max} символов."
-  description-too-long: "{prefix} &cОписание слишком длинное! Максимум {max} символов."
-  reward-too-low: "{prefix} &cНаграда слишком мала! Минимум: &6${min}"
-  reward-too-high: "{prefix} &cНаграда слишком велика! Максимум: &6${max}"
-  
-  # Статусы
-  status:
-    created: "&7Создан"
-    open: "&aОткрыт"
-    accepted: "&eПринят"
-    in-progress: "&6В процессе"
-    completed: "&bВыполнен"
-    verified: "&2Подтвержден"
-    cancelled: "&cОтменен"
-    expired: "&4Просрочен"
-  
-  # Типы контрактов
-  types:
-    item_request: "&bЗаказ предметов"
-    building: "&eСтроительство"
-    combat: "&cБоевые задачи"
-    mining: "&7Добыча ресурсов"
-    farming: "&aСбор урожая"
-    custom: "&dОсобые задания"
-  
-  # Сообщения для GUI
-  building-requires-location: "{prefix} &cКонтракты на строительство требуют указания локации!"
-
-# Репутация
-reputation:
-  rating: "&eРейтинг: &6{rating}&e/5.0 ⭐"
-  completed: "&aВыполнено: &f{count}"
-  failed: "&cПровалено: &f{count}"
-  success-rate: "&eУспешность: &a{rate}%"
-
-# GUI
+# GUI Messages
 gui:
-  contract:
-    title: "Контракты GigHub"
-    no-contracts: "&7Нет доступных контрактов"
-    click-to-view: "&eНажмите для просмотра"
-    
-  creation:
-    title: "Создание контракта"
-    select-type: "Выберите тип контракта"
-    enter-title: "Введите название контракта"
-    enter-description: "Введите описание контракта"
-    enter-reward: "Введите награду"
-    enter-deadline: "Введите срок выполнения (дни)"
-    
-  filters:
-    title: "Фильтры контрактов"
-    select-type: "Выберите тип контракта"
-    all-types: "Все типы"
+  contract-creation:
+    title: "&6Создание контракта"
+    select-type: "&eВыберите тип контракта"
+    enter-title: "&7Введите название контракта в чат:"
+    enter-description: "&7Введите описание контракта в чат:"
+    enter-reward: "&7Введите вознаграждение в чат:"
+    enter-deadline: "&7Введите срок в днях (0 без срока):"
+    select-location: "&7Нажмите для выбора локации (для строительных контрактов)"
+    confirm-create: "&aНажмите для подтверждения создания"
+    cancel-create: "&cНажмите для отмены"
+    insufficient-funds: "{prefix} &cНедостаточно средств! Требуется: ${amount}"
+    contract-created: "{prefix} &aКонтракт создан успешно! ID: #{id}"
+    error-creating: "{prefix} &cОшибка создания контракта: {error}"
+    type: "&eТип контракта"
+    type-not-selected: "&cНе выбран"
+    click-type: "&7Нажмите для выбора типа контракта"
+    title: "&eНазвание"
+    title-not-set: "&cНе установлено"
+    click-title: "&7Нажмите для установки названия"
+    description: "&eОписание"
+    description-not-set: "&cНе установлено"
+    click-description: "&7Нажмите для установки описания"
+    reward: "&eВознаграждение"
+    reward-not-set: "&cНе установлено"
+    click-reward: "&7Нажмите для установки вознаграждения"
+    deadline: "&eСрок"
+    deadline-not-set: "&cНе установлен"
+    click-deadline: "&7Нажмите для установки срока"
+    location: "&eЛокация"
+    location-not-set: "&cНе установлена"
+    click-location: "&7Нажмите для выбора локации"
+    submit: "&aСоздать контракт"
+    submit-ready: "&7Нажмите для создания контракта"
+    submit-disabled: "&cСоздать контракт"
+    submit-not-ready: "&7Заполните все обязательные поля"
+    cancel: "&cОтмена"
+    cancel-lore: "&7Нажмите для отмены создания"
+    fill-required: "{prefix} &cПожалуйста, заполните все обязательные поля!"
+    location-set: "&aЛокация установлена!"
+    success: "{prefix} &aКонтракт создан успешно!"
+    error: "{prefix} &cОшибка создания контракта!"
 
-# Команда /gig list
-list:
-  loading: "{prefix} &eЗагрузка контрактов..."
-  no-contracts: "&7Активные контракты не найдены."
-  header: "&8&m          &r &6Активные контракты &8&m          "
-  footer: "&8&m                                    "
-  use-info: "&7Используйте &e/gig info <id>&7 для деталей"
-  page-info: "&7Страница &e{current}&7/&e{total} &7(&f{count}&7 контрактов)"
-  contract-entry: "&e#{id} &7- &f{title} &7- &a${reward:.2f} &7- {status}"
-
-# Типы контрактов
+# Contract Types
 contract-types:
-  item_request: "&bЗаказ предметов"
+  item_request: "&bЗапрос предмета"
   building: "&eСтроительство"
   combat: "&cБоевые задачи"
   mining: "&7Добыча ресурсов"
   farming: "&aСбор урожая"
-  custom: "&dОсобые задания"
-  auto-verify: "&7Автоверификация:"
+  custom: "&dОсобые задачи"
+  auto-verify: "&7Автопроверка:"
 
-# Время
+# Time Messages
 time:
   days: "{days}д"
   hours: "{hours}ч"
   minutes: "{minutes}м"
   seconds: "{seconds}с"
-  expired: "&cИстек"
+  expired: "&cИстёк"
   no-deadline: "&7Без срока"
 
-# Разное
-misc:
-  none: "&7Нет"
-  unknown: "&7Неизвестно"
-  yes: "&aДа"
-  no: "&cНет"
+# Common Values
+common:
+  none: '&7Нет'
+  unknown: '&7Неизвестно'
+  affirmative: '&aДа'
+  negative: '&cНет'
+  enabled: "&aВключено"
+  disabled: "&cВыключено"
   click-to-view: "&eНажмите для просмотра"
   click-to-edit: "&eНажмите для редактирования"
   back: "&cНазад"
   close: "&cЗакрыть"
+  next: "&aДалее →"
+  previous: "← Назад"
+  page: "Страница {current}/{total}"
+
+# Commands
+commands:
+  gig:
+    help:
+      header: "&6=== Команды GigHub ==="
+      create: "&e/gig create &7- Создать новый контракт"
+      list: "&e/gig list [страница] &7- Список всех контрактов"
+      my: "&e/gig my &7- Ваши контракты"
+      accept: "&e/gig accept <id> &7- Принять контракт"
+      complete: "&e/gig complete <id> &7- Отметить контракт выполненным"
+      cancel: "&e/gig cancel <id> &7- Отменить ваш контракт"
+      footer: "&6========================"
+    
+    list:
+      header: "&6=== Доступные контракты (Страница {page}) ==="
+      no-contracts: "&7Контракты не найдены."
+      contract-item: |
+        &e#{id} &7- &f{title}
+        &7  Тип: {type} &7| Награда: ${reward}
+        &7  Нажмите для деталей...
+    
+    my:
+      header: "&6=== Ваши контракты ==="
+      no-contracts: "&7У вас нет контрактов."
+      owner: "&7Владелец: {owner}"
+      contractor: "&7Исполнитель: {contractor}"
+      
+    accept:
+      already-accepted: "{prefix} &cВы уже приняли этот контракт!"
+      success: "{prefix} &aКонтракт принят! Используйте /gig complete {id} при завершении."
+      
+    complete:
+      not-contractor: "{prefix} &cТолько исполнитель может завершать контракты!"
+      success: "{prefix} &aКонтракт отмечен как выполненный! Ожидайте проверки..."
+      
+    cancel:
+      not-owner: "{prefix} &cТолько владелец может отменять контракты!"
+      success: "{prefix} &aКонтракт отменён, средства возвращены."
+
+# Errors
+errors:
+  contract-not-found: "{prefix} &cКонтракт не найден!"
+  insufficient-funds: "{prefix} &cНедостаточно средств!"
+  already-have-contract: "{prefix} &cУ вас уже есть активный контракт!"
+  invalid-number: "{prefix} &cНеверное число!"
+  invalid-deadline: "{prefix} &cСрок должен быть положительным числом!"
+  building-requires-location: "{prefix} &cСтроительные контракты требуют указания локации!"
+
+# Success Messages
+success:
+  reloaded: "{prefix} &aКонфигурация перезагружена!"
+  saved: "{prefix} &aДанные сохранены успешно!"
+  
+# Notifications
+notifications:
+  contract-accepted: "&aВаш контракт принят игроком {player}!"
+  contract-completed: "&aКонтракт выполнен игроком {player}!"
+  contract-cancelled: "&cКонтракт отменён!"
+  funds-escrowed: "&7${amount} помещены в эскроу."
+  funds-released: "&7${amount} выплачены игроку {player}."
+  funds-refunded: "&7${amount} возвращены игроку {player}."

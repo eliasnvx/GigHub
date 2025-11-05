@@ -510,25 +510,25 @@ public class GigAdminCommand implements CommandExecutor, TabCompleter {
      */
     private boolean handleHelp(CommandSender sender) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-header")));
+                plugin.getLocaleManager().getMessage("admin.help-header")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-reload")));
+                plugin.getLocaleManager().getMessage("admin.help-reload")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-stats")));
+                plugin.getLocaleManager().getMessage("admin.help-stats")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-cancel")));
+                plugin.getLocaleManager().getMessage("admin.help-cancel")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-verify")));
+                plugin.getLocaleManager().getMessage("admin.help-verify")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-setreputation")));
+                plugin.getLocaleManager().getMessage("admin.help-setreputation")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-resetreputation")));
+                plugin.getLocaleManager().getMessage("admin.help-resetreputation")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-cleanup")));
+                plugin.getLocaleManager().getMessage("admin.help-cleanup")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-testdata")));
+                plugin.getLocaleManager().getMessage("admin.help-testdata")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("admin-help-cleardata")));
+                plugin.getLocaleManager().getMessage("admin.help-cleardata")));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
                 plugin.getLocaleManager().getMessage("footer")));
         return true;

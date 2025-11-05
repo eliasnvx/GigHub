@@ -7,8 +7,10 @@ import io.eliasnvx.gighub.core.model.ContractType;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 
@@ -33,7 +35,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         this.contractManager = plugin.getContractManager();
         this.economy = plugin.getEscrowManager().getEconomy();
         this.inventory = Bukkit.createInventory(this, 54, ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-title-header")));
+                plugin.getLocaleManager().getMessage("gui.contract-creation.title")));
         
         // Store builder for player
         contractBuilders.put(player.getUniqueId(), new ContractBuilder());
@@ -48,6 +50,9 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
      * Opens the GUI
      */
     public void open() {
+        // Unregister old events to prevent duplicates
+        HandlerList.unregisterAll(this);
+        
         fillInventory(new ContractBuilder());
         player.openInventory(inventory);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -56,12 +61,19 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
     /**
      * Fills inventory with items
      */
-    private void fillInventory(ContractBuilder builder) {
+    public void fillInventory(ContractBuilder builder) {
+        plugin.getLogger().info("[ContractCreationGUI] fillInventory called with builder:");
+        plugin.getLogger().info("[ContractCreationGUI] - Title: " + (builder.getTitle() != null ? "'" + builder.getTitle() + "'" : "null"));
+        plugin.getLogger().info("[ContractCreationGUI] - Description: " + (builder.getDescription() != null ? "'" + builder.getDescription() + "'" : "null"));
+        plugin.getLogger().info("[ContractCreationGUI] - Reward: " + (builder.getReward() > 0 ? builder.getReward() : "0"));
+        plugin.getLogger().info("[ContractCreationGUI] - Deadline: " + (builder.getDeadline() != null && builder.getDeadline() > 0 ? builder.getDeadline() + "h" : "null"));
+        plugin.getLogger().info("[ContractCreationGUI] - Type: " + (builder.getType() != null ? builder.getType().name() : "null"));
+        
         inventory.clear();
         
         // Header
         ItemStack header = createGuiItem(Material.YELLOW_STAINED_GLASS_PANE, ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-title-header")));
+                plugin.getLocaleManager().getMessage("gui.contract-creation.title")));
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, header);
         }
@@ -71,37 +83,39 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             Material.PAPER, 
             ChatColor.translateAlternateColorCodes('&', 
                 builder.getType() != null ? 
-                    plugin.getLocaleManager().getMessage("gui-creation-type")
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.type")
                         .replace("{type}", builder.getType().getDisplayName()) :
-                    plugin.getLocaleManager().getMessage("gui-creation-type-not-selected")),
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.type-not-selected")),
             ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-click-title"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.click-title"))
         );
         inventory.setItem(10, typeItem);
         
         // Title
+        String titleDisplay = builder.getTitle() != null && !builder.getTitle().isEmpty() ? 
+            plugin.getLocaleManager().getMessage("gui.contract-creation.title")
+                .replace("{title}", builder.getTitle()) :
+            plugin.getLocaleManager().getMessage("gui.contract-creation.title-not-set");
+        plugin.getLogger().info("[ContractCreationGUI] Creating title item with display: '" + titleDisplay + "'");
         ItemStack titleItem = createGuiItem(
             Material.NAME_TAG,
+            ChatColor.translateAlternateColorCodes('&', titleDisplay),
             ChatColor.translateAlternateColorCodes('&', 
-                builder.getTitle() != null && !builder.getTitle().isEmpty() ? 
-                    plugin.getLocaleManager().getMessage("gui-creation-title")
-                        .replace("{title}", builder.getTitle()) :
-                    plugin.getLocaleManager().getMessage("gui-creation-title-not-set")),
-            ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-click-title"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.click-title"))
         );
         inventory.setItem(12, titleItem);
         
         // Description
+        String descDisplay = builder.getDescription() != null && !builder.getDescription().isEmpty() ? 
+            plugin.getLocaleManager().getMessage("gui.contract-creation.description")
+                .replace("{description}", builder.getDescription().substring(0, Math.min(20, builder.getDescription().length())) + "...") :
+            plugin.getLocaleManager().getMessage("gui.contract-creation.description-not-set");
+        plugin.getLogger().info("[ContractCreationGUI] Creating description item with display: '" + descDisplay + "'");
         ItemStack descItem = createGuiItem(
             Material.WRITABLE_BOOK,
+            ChatColor.translateAlternateColorCodes('&', descDisplay),
             ChatColor.translateAlternateColorCodes('&', 
-                builder.getDescription() != null && !builder.getDescription().isEmpty() ? 
-                    plugin.getLocaleManager().getMessage("gui-creation-description")
-                        .replace("{description}", builder.getDescription().substring(0, Math.min(20, builder.getDescription().length())) + "...") :
-                    plugin.getLocaleManager().getMessage("gui-creation-description-not-set")),
-            ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-click-description"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.click-description"))
         );
         inventory.setItem(14, descItem);
         
@@ -110,11 +124,11 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             Material.GOLD_INGOT,
             ChatColor.translateAlternateColorCodes('&', 
                 builder.getReward() > 0 ? 
-                    plugin.getLocaleManager().getMessage("gui-creation-reward")
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.reward")
                         .replace("{reward}", "&6$" + builder.getReward()) :
-                    plugin.getLocaleManager().getMessage("gui-creation-reward-not-set")),
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.reward-not-set")),
             ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-click-reward"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.click-reward"))
         );
         inventory.setItem(16, rewardItem);
         
@@ -123,11 +137,11 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             Material.CLOCK,
             ChatColor.translateAlternateColorCodes('&', 
                 builder.getDeadline() != null ? 
-                    plugin.getLocaleManager().getMessage("gui-creation-deadline")
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.deadline")
                         .replace("{deadline}", builder.getDeadline() + " hours") :
-                    plugin.getLocaleManager().getMessage("gui-creation-deadline-not-set")),
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.deadline-not-set")),
             ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-click-deadline"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.click-deadline"))
         );
         inventory.setItem(19, deadlineItem);
         
@@ -137,11 +151,11 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
                 Material.COMPASS,
                 ChatColor.translateAlternateColorCodes('&', 
                     builder.getLocation() != null ? 
-                        plugin.getLocaleManager().getMessage("gui-creation-location")
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.location")
                             .replace("{location}", "&aSet") :
-                        plugin.getLocaleManager().getMessage("gui-creation-location-not-set")),
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.location-not-set")),
                 ChatColor.translateAlternateColorCodes('&', 
-                    plugin.getLocaleManager().getMessage("gui-creation-click-location"))
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.click-location"))
             );
             inventory.setItem(21, locationItem);
         }
@@ -151,18 +165,18 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             ItemStack submitItem = createGuiItem(
                 Material.GREEN_CONCRETE,
                 ChatColor.translateAlternateColorCodes('&', 
-                    plugin.getLocaleManager().getMessage("gui-creation-submit")),
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.submit")),
                 ChatColor.translateAlternateColorCodes('&', 
-                    plugin.getLocaleManager().getMessage("gui-creation-submit-ready"))
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.submit-ready"))
             );
             inventory.setItem(40, submitItem);
         } else {
             ItemStack submitItem = createGuiItem(
                 Material.RED_CONCRETE,
                 ChatColor.translateAlternateColorCodes('&', 
-                    plugin.getLocaleManager().getMessage("gui-creation-submit-disabled")),
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.submit-disabled")),
                 ChatColor.translateAlternateColorCodes('&', 
-                    plugin.getLocaleManager().getMessage("gui-creation-submit-not-ready"))
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.submit-not-ready"))
             );
             inventory.setItem(40, submitItem);
         }
@@ -171,9 +185,9 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         ItemStack cancelItem = createGuiItem(
             Material.BARRIER,
             ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-cancel")),
+                plugin.getLocaleManager().getMessage("gui.contract-creation.cancel")),
             ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-cancel-lore"))
+                plugin.getLocaleManager().getMessage("gui.contract-creation.cancel-lore"))
         );
         inventory.setItem(44, cancelItem);
         
@@ -214,7 +228,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         // Check if this is type selection inventory
         String title = event.getView().getTitle();
         String typeSelectionTitle = ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-select-type"));
+                plugin.getLocaleManager().getMessage("gui.contract-creation.select-type"));
         
         if (title.equals(typeSelectionTitle)) {
             event.setCancelled(true);
@@ -244,28 +258,28 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             case 12: // Title
                 clicker.closeInventory();
                 clicker.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-enter-title")));
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.enter-title")));
                 builder.setInputStep(InputStep.TITLE);
                 ChatInputListener.enableInputMode(clicker.getUniqueId());
                 break;
             case 14: // Description
                 clicker.closeInventory();
                 clicker.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-enter-description")));
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.enter-description")));
                 builder.setInputStep(InputStep.DESCRIPTION);
                 ChatInputListener.enableInputMode(clicker.getUniqueId());
                 break;
             case 16: // Reward
                 clicker.closeInventory();
                 clicker.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-enter-reward")));
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.enter-reward")));
                 builder.setInputStep(InputStep.REWARD);
                 ChatInputListener.enableInputMode(clicker.getUniqueId());
                 break;
             case 19: // Deadline
                 clicker.closeInventory();
                 clicker.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-enter-deadline")));
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.enter-deadline")));
                 builder.setInputStep(InputStep.DEADLINE);
                 ChatInputListener.enableInputMode(clicker.getUniqueId());
                 break;
@@ -274,15 +288,18 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
                     builder.setLocation(player.getLocation());
                     fillInventory(builder);
                     clicker.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getLocaleManager().getMessage("gui-creation-location-set")
+                            plugin.getLocaleManager().getMessage("gui.contract-creation.location-set")
                                     .replace("{x}", String.valueOf(player.getLocation().getBlockX()))
                                     .replace("{y}", String.valueOf(player.getLocation().getBlockY()))
                                     .replace("{z}", String.valueOf(player.getLocation().getBlockZ()))));
                 }
                 break;
             case 40: // Submit
+                plugin.getLogger().info("[ContractCreationGUI] Submit button clicked by " + clicker.getName());
                 if (builder.canSubmit()) {
                     submitContract(builder);
+                } else {
+                    plugin.getLogger().info("[ContractCreationGUI] Cannot submit - builder not ready");
                 }
                 break;
             case 44: // Cancel
@@ -296,7 +313,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
      */
     private void openTypeSelection() {
         Inventory typeInv = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', 
-                plugin.getLocaleManager().getMessage("gui-creation-select-type")));
+                plugin.getLocaleManager().getMessage("gui.contract-creation.select-type")));
         
         // Add all contract types
         int slot = 0;
@@ -305,8 +322,8 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             
             String autoVerifyText = plugin.getLocaleManager().getMessage("contract-types.auto-verify") + " " +
                     (type.isAutoVerify() ? 
-                        plugin.getLocaleManager().getMessage("misc.yes") : 
-                        plugin.getLocaleManager().getMessage("misc.no"));
+                        plugin.getLocaleManager().getMessage("common.affirmative") : 
+                        plugin.getLocaleManager().getMessage("common.negative"));
             
             ItemStack typeItem = createGuiItem(
                 getMaterialForType(type),
@@ -338,10 +355,18 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
             ContractType selectedType = types[slot];
             builder.setType(selectedType);
             
-            // Close type selection and reopen main GUI
+            // Close type selection and refresh current GUI with updated type
             player.closeInventory();
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                plugin.getGUIManager().openContractCreation(player);
+                // Get current builder and update GUI in-place
+                ContractBuilder currentBuilder = contractBuilders.get(player.getUniqueId());
+                if (currentBuilder != null) {
+                    fillInventory(currentBuilder);
+                    player.openInventory(inventory);
+                } else {
+                    // Fallback to opening new GUI if no builder exists
+                    plugin.getGUIManager().openContractCreation(player);
+                }
             });
         }
     }
@@ -367,13 +392,13 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
     private void submitContract(ContractBuilder builder) {
         if (!builder.canSubmit()) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getLocaleManager().getMessage("gui-creation-fill-required")));
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.fill-required")));
             return;
         }
         
         // Check BUILDING contracts for location - USE LOCALIZATION!
         if (builder.getType() == ContractType.BUILDING && builder.getLocation() == null) {
-            String message = plugin.getLocaleManager().getMessage("contract.building-requires-location");
+            String message = plugin.getLocaleManager().getMessage("errors.building-requires-location");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
             return;
         }
@@ -382,7 +407,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         double totalCost = builder.getReward() + (builder.getReward() * plugin.getEscrowManager().getCommissionPercentage() / 100);
         if (economy != null && economy.getBalance(player) < totalCost) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getLocaleManager().getMessage("gui-creation-insufficient-funds")
+                    plugin.getLocaleManager().getMessage("gui.contract-creation.insufficient-funds")
                             .replace("{amount}", String.format("%.2f", totalCost))));
             return;
         }
@@ -398,7 +423,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         ).thenAccept(contract -> {
             Bukkit.getScheduler().runTask(plugin, () -> {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-success")
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.success")
                                 .replace("{id}", contract.getId().toString().substring(0, 8))));
                 player.closeInventory();
                 cancelContractCreation();
@@ -406,7 +431,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         }).exceptionally(throwable -> {
             Bukkit.getScheduler().runTask(plugin, () -> {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getLocaleManager().getMessage("gui-creation-error")
+                        plugin.getLocaleManager().getMessage("gui.contract-creation.error")
                                 .replace("{error}", throwable.getMessage())));
             });
             return null;
@@ -446,6 +471,7 @@ public class ContractCreationGUI implements Listener, InventoryHolder {
         player.openInventory(inventory);
     }
     
+        
     /**
      * Input steps
      */

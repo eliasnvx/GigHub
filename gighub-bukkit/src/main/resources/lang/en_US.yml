@@ -1,500 +1,90 @@
-# English (US) Language File for GigHub
-
-# Префикс
 prefix: "&8[&6GigHub&8]"
 
-# Общие сообщения
-messages:
-  reload-success: "{prefix} &aConfiguration reloaded successfully!"
-  no-permission: "{prefix} &cYou don't have permission to do that!"
-  player-only: "{prefix} &cThis command can only be used by players!"
-  invalid-usage: "{prefix} &cInvalid usage! Use: &e{usage}"
-  error: "{prefix} &cAn error occurred. Please try again later."
-  unknown-command: "{prefix} &cUnknown command. Use &e/gig help"
-  player-not-found: "{prefix} &cPlayer not found!"
-  contract-not-found: "{prefix} &cContract not found!"
-  invalid-contract-id: "{prefix} &cInvalid contract ID!"
-  failed-to-load-contract: "{prefix} &cFailed to load contract info!"
+# General Messages
+general:
+  no-permission: "{prefix} &cYou don't have permission to use this command!"
+  player-only: "{prefix} &cThis command can only be used by a player!"
+  invalid-usage: "{prefix} &cInvalid usage! {usage}"
+  unknown-command: "{prefix} &cUnknown subcommand!"
 
-  # Contract Creation GUI
-  gui-creation-type: "&eContract Type: {type}"
-  gui-creation-type-not-selected: "&eContract Type: &7Not selected"
-  gui-creation-title: "&eTitle: {title}"
-  gui-creation-title-not-set: "&eTitle: &7Not set"
-  gui-creation-description: "&eDescription: {description}"
-  gui-creation-description-not-set: "&eDescription: &7Not specified"
-  gui-creation-reward: "&eReward: {reward}"
-  gui-creation-reward-not-set: "&eReward: &7Not specified"
-  gui-creation-deadline: "&eDeadline: {deadline}"
-  gui-creation-deadline-not-set: "&eDeadline: &7Not specified"
-  gui-creation-location: "&eLocation: {location}"
-  gui-creation-location-not-set: "&eLocation: &7Not specified"
-  gui-creation-click-title: "&7Click to enter title"
-  gui-creation-click-description: "&7Click to enter description"
-  gui-creation-click-reward: "&7Click to enter reward"
-  gui-creation-click-deadline: "&7Click to enter deadline"
-  gui-creation-click-location: "&7Click to set location"
-  gui-creation-submit: "&aCreate Contract"
-  gui-creation-submit-ready: "&7All fields are filled!"
-  gui-creation-submit-disabled: "&cCreate Contract"
-  gui-creation-submit-not-ready: "&7Fill in all required fields!"
-  gui-creation-cancel: "&cCancel"
-  gui-creation-cancel-lore: "&7Return to main menu"
-  gui-creation-title-header: "&6Contract Creation"
-  gui-creation-select-type: "&6Select Contract Type"
-  gui-creation-insufficient-funds: "&cInsufficient funds! Required: ${amount}"
-  gui-creation-success: "&aContract successfully created! ID: {id}"
-  gui-creation-error: "&cError creating contract: {error}"
-  gui-creation-fill-required: "&cFill in all required fields!"
-  gui-creation-location-set: "&aLocation set: {x}, {y}, {z}"
-  gui-creation-enter-title: "&eEnter contract title in chat:"
-  gui-creation-enter-description: "&eEnter contract description in chat:"
-  gui-creation-enter-reward: "&eEnter reward in chat:"
-  gui-creation-enter-deadline: "&eEnter deadline in days:"
-  chat-input-cancelled: "&cInput cancelled."
-  chat-input-title-too-long: "&cTitle too long! Maximum 100 characters."
-  chat-input-title-set: "&a✓ Title set: {title}"
-  chat-input-description-too-long: "&cDescription too long! Maximum {max} characters."
-  chat-input-description-set: "&a✓ Description set"
-  chat-input-reward-invalid: "&cInvalid format! Enter a number (e.g: 1000)"
-  chat-input-reward-range: "&cReward must be between ${min} and ${max}"
-  chat-input-reward-set: "&a✓ Reward set: ${amount}"
-  chat-input-deadline-invalid: "&cInvalid format! Enter whole number of hours (e.g: 48)"
-  chat-input-deadline-range: "&cDeadline must be from 1 to 168 hours (7 days)"
-  chat-input-deadline-set: "&a✓ Deadline set: {hours} hours"
-  chat-input-error: "&cError processing input: {error}"
-  chat-input-gui-error: "&cError opening GUI: {error}"
-  
-  # Success messages
-  contract-accepted-success: "&a[GigHub] Contract accepted successfully!"
-  contract-completed-success: "&a[GigHub] Contract marked as completed!"
-  waiting-verification: "&7Waiting for owner verification..."
-  contract-confirmed-success: "&a[GigHub] Contract confirmed and payment sent!"
-  contract-cancelled-success: "&a[GigHub] Contract cancelled successfully!"
-  contract-verified-success: "&a[GigHub] Contract verified! Payment sent."
-  filters-reset: "&a[GigHub] &fFilters reset to default"
-  
-  # My contracts
-  loading-contracts: "{prefix} &eLoading your contracts..."
-  my-contracts-header: "&6&m          &r &6My Contracts &6&m          "
-  as-owner: "&eAs Owner:"
-  as-contractor: "&eAs Contractor:"
-  no-active-contracts: "&7You have no active contracts."
-  footer: "&6&m                                    "
-  
-  # Contract details
-  contract-details-header: "&6&m          &r &6Contract Details &6&m          "
-  contract-id: "&eID: &7#{id}"
-  contract-title: "&eTitle: &f{title}"
-  contract-description: "&eDescription: &7{description}"
-  contract-type: "&eType: &b{type}"
-  contract-reward: "&eReward: &a${reward}"
-  contract-status: "&eStatus: {status}"
-  contract-owner: "&eOwner: &f{owner}"
-  contract-contractor: "&eContractor: &f{contractor}"
-  contract-deadline: "&eDeadline: &7{deadline} hours remaining"
-  contract-use-accept: "&7Use &e/gig accept {id} &7to accept"
-  
-  # Reputation
-  reputation-header: "&6&m          &r &6Reputation &6&m          "
-  reputation-player: "&ePlayer: &f{player}"
-  reputation-rating: "&eRating: &6{rating} &e⭐"
-  reputation-completed: "&eCompleted: &a{completed}"
-  reputation-failed: "&eFailed: &c{failed}"
-  reputation-success-rate: "&eSuccess Rate: &a{successRate}"
-  reputation-points: "&ePoints: &f{points}"
-  reputation-reviews: "&eReviews: &f{reviews}"
-  
-  # Admin commands
-  admin-no-permission: "{prefix} &cYou don't have permission to use admin commands!"
-  admin-unknown-command: "{prefix} &cUnknown command. Use &e/gigadmin help"
-  admin-reloading: "{prefix} &eReloading configuration..."
-  admin-reload-success: "{prefix} &aConfiguration reloaded successfully!"
-  admin-reload-failed: "{prefix} &cFailed to reload configuration: {error}"
-  admin-loading-stats: "{prefix} &eLoading statistics..."
-  admin-stats-header: "&6&m          &r &6GigHub Statistics &6&m          "
-  admin-active-contracts: "&eActive Contracts: &f{count}"
-  admin-database-status: "&eDatabase: &f{status}"
-  admin-economy-status: "&eEconomy: &f{status}"
-  admin-permissions-status: "&ePermissions: &f{plugin}"
-  admin-usage-cancel: "{prefix} &cUsage: &e/gigadmin cancel <contract-id>"
-  admin-cancelling: "{prefix} &eCancelling contract..."
-  admin-cancel-success: "{prefix} &aContract cancelled successfully!"
-  admin-cancel-failed: "{prefix} &cFailed to cancel contract."
-  admin-usage-verify: "{prefix} &cUsage: &e/gigadmin verify <contract-id>"
-  admin-verifying: "{prefix} &eVerifying contract..."
-  admin-verify-success: "{prefix} &aContract verified successfully!"
-  admin-verify-failed: "{prefix} &cFailed to verify contract."
-  admin-usage-setreputation: "{prefix} &cUsage: &e/gigadmin setreputation <player> <rating>"
-  admin-rating-range: "{prefix} &cRating must be between 1.0 and 5.0!"
-  admin-setting-reputation: "{prefix} &eSetting reputation..."
-  admin-setreputation-success: "{prefix} &aReputation set to {rating} for {player}"
-  admin-setreputation-failed: "{prefix} &cFailed to set reputation."
-  admin-invalid-rating: "{prefix} &cInvalid rating! Must be a number between 1.0 and 5.0"
-  admin-usage-resetreputation: "{prefix} &cUsage: &e/gigadmin resetreputation <player>"
-  admin-resetting-reputation: "{prefix} &eResetting reputation..."
-  admin-resetreputation-success: "{prefix} &aReputation reset for {player}"
-  admin-resetreputation-failed: "{prefix} &cFailed to reset reputation."
-  admin-starting-cleanup: "{prefix} &eStarting cleanup of expired contracts..."
-  admin-cleanup-success: "{prefix} &aCleaned up {count} expired contracts!"
-  admin-count-range: "{prefix} &cCount must be between 1 and 20!"
-  admin-invalid-number: "{prefix} &cInvalid number!"
-  admin-creating-testdata: "{prefix} &eCreating {count} test contracts..."
-  admin-testdata-success: "{prefix} &aCreated {created} test contracts!"
-  admin-testdata-hint: "&7Use &e/gig list &7to view them"
-  admin-testdata-failed: "{prefix} &cFailed to create test contracts!"
-  admin-recreating-schema: "{prefix} &cRecreating database schema (DROP + CREATE)..."
-  admin-schema-success: "{prefix} &aDatabase schema recreated successfully!"
-  admin-schema-failed: "{prefix} &cFailed to recreate schema!"
-  admin-help-header: "&6&m          &r &6GigHub Admin Commands &6&m          "
-  admin-help-reload: "&e/gigadmin reload &7- Reload configuration"
-  admin-help-stats: "&e/gigadmin stats &7- View plugin statistics"
-  admin-help-cancel: "&e/gigadmin cancel <id> &7- Cancel any contract"
-  admin-help-verify: "&e/gigadmin verify <id> &7- Force verify contract"
-  admin-help-setreputation: "&e/gigadmin setreputation <player> <rating> &7- Set player rating"
-  admin-help-resetreputation: "&e/gigadmin resetreputation <player> &7- Reset player reputation"
-  admin-help-cleanup: "&e/gigadmin cleanup &7- Clean up expired contracts"
-  admin-help-testdata: "&e/gigadmin testdata [count] &7- Create test contracts (1-20)"
-  admin-help-cleardata: "&e/gigadmin cleardata &7- &cClear ALL data from database"
-  
-  # GigHub help commands
-  help-header: "&6&m          &r &6GigHub Commands &6&m          "
-  help-list: "&e/gig list &7- View available contracts"
-  help-my: "&e/gig my &7- View your contracts"
-  help-accept: "&e/gig accept <id> &7- Accept a contract"
-  help-complete: "&e/gig complete <id> &7- Mark contract as completed"
-  help-confirm: "&e/gig confirm <id> &7- Confirm completed contract"
-  help-cancel: "&e/gig cancel <id> &7- Cancel your contract"
-  help-info: "&e/gig info <id> &7- View contract details"
-  help-reputation: "&e/gig reputation [player] &7- View reputation stats"
-  help-create: "&e/gig create <title> <reward> <deadline> &7- Create new contract"
-  help-help: "&e/gig help &7- Show this help"
-  
-  # GUI messages
-  gui-contract-accepted: "{prefix} &aContract accepted!"
-  gui-contract-accepted-owner: "{prefix} &eYour contract was accepted!"
-  gui-contract-accepted-owner-contractor: "{prefix} &eContractor: &f{contractor}"
-  gui-contract-accepted-owner-title: "{prefix} &eTitle: &f{title}"
-  gui-accept-failed: "{prefix} &cFailed to accept contract!"
-  gui-contract-completed: "{prefix} &aContract marked as completed!"
-  gui-waiting-verification: "&7Waiting for owner verification..."
-  gui-contract-completed-owner: "{prefix} &eContractor completed your contract!"
-  gui-contract-completed-owner-contractor: "{prefix} &eContractor: &f{contractor}"
-  gui-contract-completed-owner-title: "{prefix} &eTitle: &f{title}"
-  gui-contract-completed-owner-confirm: "{prefix} &eUse &e/gig confirm {id} &efor confirmation"
-  gui-complete-failed: "{prefix} &cFailed to complete contract!"
-  gui-contract-verified: "{prefix} &aContract verified! Payment sent."
-  gui-contract-verified-contractor: "{prefix} &eOwner confirmed contract completion!"
-  gui-contract-verified-contractor-owner: "{prefix} &eOwner: &f{owner}"
-  gui-contract-verified-contractor-title: "{prefix} &eTitle: &f{title}"
-  gui-contract-verified-payment: "{prefix} &eMoney transferred to your account!"
-  gui-verify-failed: "{prefix} &cFailed to verify contract!"
-  gui-contract-cancelled: "{prefix} &aContract cancelled!"
-  gui-cancel-failed: "{prefix} &cFailed to cancel contract!"
-  gui-filters-reset: "{prefix} &aFilters reset to default"
-  
-  # Listener messages  
-  listener-completed-waiting: "{prefix} &eYou have &a{count} &ecompleted contract{plural} waiting for verification!"
-  listener-expired-warning: "{prefix} &cWarning: &e{count} &econtract{plural} {expired}!"
-  listener-in-progress: "{prefix} &eYou have &b{count} &eactive contract{plural}."
-
-# Команды использования
-usage:
-  accept: "{prefix} &cUsage: &e/gig accept <contract-id>"
-  complete: "{prefix} &cUsage: &e/gig complete <contract-id>"
-  confirm: "{prefix} &cUsage: &e/gig confirm <contract-id>"
-  cancel: "{prefix} &cUsage: &e/gig cancel <contract-id>"
-  info: "{prefix} &cUsage: &e/gig info <contract-id>"
-  
-# Статусы операций
-operation:
-  accepting: "{prefix} &eAccepting contract..."
-  completing: "{prefix} &eCompleting contract..."
-  confirming: "{prefix} &eConfirming contract completion..."
-  cancelling: "{prefix} &eCancelling contract..."
-  loading-info: "{prefix} &eLoading contract info..."
-  
-# Ошибки операций
-operation-failed:
-  accept: "{prefix} &cFailed to accept contract. Check if it's still available."
-  complete: "{prefix} &cFailed to complete contract."
-  confirm: "{prefix} &cFailed to confirm contract. Check if you're the owner and contract is completed."
-  cancel: "{prefix} &cFailed to cancel contract."
-  
-# Уведомления для игроков
-notifications:
-  contract-accepted-owner: "{prefix} &eYour contract has been accepted!"
-  contractor-info: "&eContractor: &f{player}"
-  contract-title-info: "&eTitle: &f{title}"
-  confirm-instruction: "&eUse &f/gig confirm {id} &eto confirm"
-  
-  contract-completed-owner: "{prefix} &eContractor has completed your contract!"
-  confirm-contract: "&eUse &f/gig confirm {id} &eto confirm"
-  
-  contract-confirmed-contractor: "{prefix} &eClient has confirmed contract completion!"
-  client-info: "&eClient: &f{player}"
-  payment-sent: "&eMoney has been transferred to your account!"
-  
-  contract-creation-gui: "{prefix} &eContract creation GUI coming soon!"
-
-# Контракты
-contract:
-  created: "{prefix} &aContract created successfully! ID: &e{id}"
-  accepted: "{prefix} &aYou accepted contract &e#{id}&a!"
-  completed: "{prefix} &aContract completed! Waiting for verification..."
-  verified: "{prefix} &aContract verified! You earned &6${reward}&a!"
-  cancelled: "{prefix} &cContract cancelled."
-  expired: "{prefix} &cContract expired."
-  
-  # Ошибки
-  not-found: "{prefix} &cContract not found!"
-  already-accepted: "{prefix} &cThis contract is already accepted!"
-  cannot-accept-own: "{prefix} &cYou cannot accept your own contract!"
-  max-contracts-reached: "{prefix} &cYou reached the maximum active contracts limit! ({limit})"
-  insufficient-funds: "{prefix} &cYou need &6${amount}&c to create this contract!"
-  invalid-type: "{prefix} &cInvalid contract type!"
-  title-too-long: "{prefix} &cTitle is too long! Maximum {max} characters."
-  description-too-long: "{prefix} &cDescription is too long! Maximum {max} characters."
-  reward-too-low: "{prefix} &cReward is too low! Minimum: &6${min}"
-  reward-too-high: "{prefix} &cReward is too high! Maximum: &6${max}"
-  
-  # Статусы
-  status:
-    created: "&7Created"
-    open: "&aOpen"
-    accepted: "&eAccepted"
-    in-progress: "&6In Progress"
-    completed: "&bCompleted"
-    verified: "&2Verified"
-    cancelled: "&cCancelled"
-    expired: "&4Expired"
-
-# Репутация
-reputation:
-  rating: "&eRating: &6{rating}&e/5.0 ⭐"
-  completed: "&aCompleted: &f{count}"
-  failed: "&cFailed: &f{count}"
-  success-rate: "&eSuccess Rate: &a{rate}%"
-  points: "&eReputation Points: &f{points}"
-  not-enough-contracts: "&7Not enough contracts to show rating"
-  
-  review-added: "{prefix} &aReview added successfully!"
-  review-updated: "{prefix} &aYour review has been updated!"
-  invalid-rating: "{prefix} &cRating must be between 1 and 5!"
-
-# GUI
+# GUI Messages
 gui:
-  # Главное меню
-  board:
-    title: "&8Contract Board"
-    
-    # Предметы
-    filters:
-      name: "&eFilters"
-      lore:
-        - "&7Click to filter contracts"
-        - ""
-        - "&7Current filter: &f{filter}"
-    
-    my-contracts:
-      name: "&aMy Contracts"
-      lore:
-        - "&7View your contracts"
-        - ""
-        - "&7As Owner: &f{owner}"
-        - "&7As Contractor: &f{contractor}"
-    
-    create-new:
-      name: "&6Create New Contract"
-      lore:
-        - "&7Click to create a new contract"
-        - ""
-        - "&7Active: &f{active}&7/&f{limit}"
-    
-    search:
-      name: "&bSearch"
-      lore:
-        - "&7Search for contracts"
-    
-    sort:
-      name: "&dSort By"
-      lore:
-        - "&7Click to change sorting"
-        - ""
-        - "&7Current: &f{sort}"
-    
-    next-page:
-      name: "&aNext Page"
-      lore:
-        - "&7Page {current}/{total}"
-    
-    previous-page:
-      name: "&cPrevious Page"
-      lore:
-        - "&7Page {current}/{total}"
-  
-  # Детали контракта
-  details:
-    title: "&8Contract Details"
-    
-    info:
-      name: "&6Contract #{id}"
-      lore:
-        - "&7Type: &f{type}"
-        - "&7Status: {status}"
-        - ""
-        - "&7Owner: &f{owner}"
-        - "&7Contractor: &f{contractor}"
-        - ""
-        - "&7Reward: &a${reward}"
-        - "&7Deadline: &f{deadline}"
-        - ""
-        - "&e{title}"
-        - "&7{description}"
-    
-    accept:
-      name: "&aAccept Contract"
-      lore:
-        - "&7Click to accept this contract"
-    
-    complete:
-      name: "&bComplete Contract"
-      lore:
-        - "&7Click to mark as completed"
-    
-    verify:
-      name: "&2Verify Contract"
-      lore:
-        - "&7Click to verify completion"
-    
-    cancel:
-      name: "&cCancel Contract"
-      lore:
-        - "&7Click to cancel this contract"
-    
-    owner-profile:
-      name: "&eOwner Profile"
-      lore:
-        - "&7Name: &f{name}"
-        - "&7Rating: &6{rating}&e/5.0 ⭐"
-        - "&7Completed: &a{completed}"
-        - ""
-        - "&7Click to view full profile"
-    
-    contractor-profile:
-      name: "&eContractor Profile"
-      lore:
-        - "&7Name: &f{name}"
-        - "&7Rating: &6{rating}&e/5.0 ⭐"
-        - "&7Completed: &a{completed}"
-        - ""
-        - "&7Click to view full profile"
+  contract-creation:
+    title: "&6Contract Creation"
+    select-type: "&eSelect contract type"
+    enter-title: "&7Enter contract title in chat:"
+    enter-description: "&7Enter contract description in chat:"
+    enter-reward: "&7Enter reward amount in chat:"
+    enter-deadline: "&7Enter deadline in days (0 for no deadline):"
+    select-location: "&7Click to select location (for building contracts)"
+    confirm-create: "&aClick to confirm creation"
+    cancel-create: "&cClick to cancel"
+    insufficient-funds: "{prefix} &cInsufficient funds! Required: ${amount}"
+    contract-created: "{prefix} &aContract created successfully! ID: #{id}"
+    error-creating: "{prefix} &cError creating contract: {error}"
+    cancel-failed: "{prefix} &cFailed to cancel contract!"
+    # GUI Items
+    type: "&eContract Type: {type}"
+    type-not-selected: "&cNot selected"
+    click-type: "&7Click to select contract type"
+    title: "&eTitle: {title}"
+    title-not-set: "&cNot set"
+    click-title: "&7Click to set title"
+    description: "&eDescription: {description}"
+    description-not-set: "&cNot set"
+    click-description: "&7Click to set description"
+    reward: "&eReward: {reward}"
+    reward-not-set: "&cNot set"
+    click-reward: "&7Click to set reward"
+    deadline: "&eDeadline: {deadline}"
+    deadline-not-set: "&cNot set"
+    click-deadline: "&7Click to set deadline"
+    location: "&eLocation"
+    location-not-set: "&cNot set"
+    click-location: "&7Click to set location"
+    submit: "&aSubmit Contract"
+    submit-ready: "&7Click to create contract"
+    submit-disabled: "&cSubmit Contract"
+    submit-not-ready: "&7Fill all required fields first"
+    cancel: "&cCancel"
+    cancel-lore: "&7Click to cancel creation"
+    fill-required: "{prefix} &cPlease fill all required fields!"
+    location-set: "&aLocation set!"
+    success: "{prefix} &aContract created successfully!"
+    error: "{prefix} &cError creating contract!"
+  contract-accepted: "&aContract Accepted!"
+  contract-accepted-owner: "&aYour contract was accepted!"
+  contract-accepted-owner-contractor: "&7Contractor: {player}"
+  contract-accepted-owner-title: "&7Title: {title}"
+  accept-failed: "&cFailed to accept contract!"
+  contract-completed: "&aContract Completed!"
+  waiting-verification: "&7Waiting for verification..."
+  contract-completed-owner: "&aContract completed!"
+  contract-completed-owner-contractor: "&7Contractor: {player}"
+  contract-completed-owner-title: "&7Title: {title}"
+  contract-completed-owner-confirm: "&7Click to confirm and pay"
+  complete-failed: "&cFailed to complete contract!"
+  contract-verified: "&aContract Verified!"
+  contract-verified-contractor: "&aPayment sent!"
+  contract-verified-contractor-owner: "&7Payment: ${amount}"
+  contract-verified-contractor-title: "&7Contract: {title}"
+  contract-verified-payment: "&7Paid to: {player}"
+  verify-failed: "&cFailed to verify contract!"
+  contract-cancelled: "&cContract Cancelled!"
+  cancel-failed: "&cFailed to cancel contract!"
+  filters-reset: "&aFilters reset!"
 
-# Уведомления
-notifications:
-  contract-created: "{prefix} &eNew contract available: &f{title}"
-  contract-accepted: "{prefix} &aYour contract &e#{id}&a was accepted by &f{player}"
-  contract-completed: "{prefix} &aContract &e#{id}&a was completed! Please verify."
-  contract-verified: "{prefix} &aContract &e#{id}&a was verified! Payment sent."
-  contract-cancelled: "{prefix} &cContract &e#{id}&c was cancelled."
-  contract-expired: "{prefix} &cContract &e#{id}&c has expired."
-  
-  review-received: "{prefix} &eYou received a new review from &f{player}&e!"
-
-# Админ команды
-admin:
-  stats:
-    header: "&8&m          &r &6GigHub Statistics &8&m          "
-    total-contracts: "&eTotal Contracts: &f{total}"
-    active-contracts: "&aActive Contracts: &f{active}"
-    completed-contracts: "&2Completed Contracts: &f{completed}"
-    total-players: "&ePlayers: &f{players}"
-    total-transactions: "&6Total Transactions: &f${amount}"
-    footer: "&8&m                                    "
-  
-  contract-deleted: "{prefix} &aContract &e#{id}&a deleted successfully!"
-  reputation-set: "{prefix} &aReputation for &e{player}&a set to &6{rating}&a!"
-  reputation-reset: "{prefix} &aReputation for &e{player}&a has been reset!"
-  
-  cleanup:
-    started: "{prefix} &eStarting cleanup of expired contracts..."
-    completed: "{prefix} &aCleaned up &e{count}&a expired contracts!"
-
-# Команда /gig list
-list:
-  loading: "{prefix} &eLoading contracts..."
-  no-contracts: "&7No active contracts found."
-  header: "&8&m          &r &6Active Contracts &8&m          "
-  footer: "&8&m                                    "
-  use-info: "&7Use &e/gig info <id>&7 for details"
-  page-info: "&7Page &e{current}&7/&e{total} &7(&f{count}&7 contracts)"
-  contract-entry: "&e#{id} &7- &f{title} &7- &a${reward:.2f} &7- {status}"
-  
-# Contracts
-contract:
-  created: "{prefix} &aContract created successfully! ID: &e{id}"
-  accepted: "{prefix} &aYou accepted contract &e#{id}&a!"
-  completed: "{prefix} &aContract completed! Waiting for verification..."
-  verified: "{prefix} &aContract verified! You earned &6${reward}&a!"
-  cancelled: "{prefix} &cContract cancelled."
-  expired: "{prefix} &cContract expired."
-  
-  # Errors
-  not-found: "{prefix} &cContract not found!"
-  already-accepted: "{prefix} &cThis contract is already accepted!"
-  cannot-accept-own: "{prefix} &cYou cannot accept your own contract!"
-  max-contracts-reached: "{prefix} &cYou reached the maximum active contracts limit! ({limit})"
-  insufficient-funds: "{prefix} &cYou need &6${amount}&c to create this contract!"
-  invalid-type: "{prefix} &cInvalid contract type!"
-  title-too-long: "{prefix} &cTitle is too long! Maximum {max} characters."
-  description-too-long: "{prefix} &cDescription is too long! Maximum {max} characters."
-  reward-too-low: "{prefix} &cReward is too low! Minimum: &6${min}"
-  reward-too-high: "{prefix} &cReward is too high! Maximum: &6${max}"
-  
-  # Statuses
-  status:
-    created: "&7Created"
-    open: "&aOpen"
-    accepted: "&eAccepted"
-    in-progress: "&6In Progress"
-    completed: "&bCompleted"
-    verified: "&2Verified"
-    cancelled: "&cCancelled"
-    expired: "&4Expired"
-  
-  # Contract types
-  types:
-    item_request: "&bItem Request"
-    building: "&eBuilding"
-    combat: "&cCombat Tasks"
-    mining: "&7Resource Mining"
-    farming: "&aCrop Harvesting"
-    custom: "&dSpecial Tasks"
-  
-  # GUI messages
-  building-requires-location: "{prefix} &cContracts for construction require location specification!"
-
+# Contract Types
 contract-types:
   item_request: "&bItem Request"
-  building: "&eBuilding"
+  building: "&eConstruction"
   combat: "&cCombat Tasks"
   mining: "&7Resource Mining"
-  farming: "&aCrop Harvesting"
-  custom: "&dSpecial Tasks"
+  farming: "&aHarvesting"
+  custom: "&dCustom Tasks"
   auto-verify: "&7Auto-verify:"
 
-# Misc
-misc:
-  none: "&7None"
-  unknown: "&7Unknown"
-  yes: "&aYes"
-  no: "&cNo"
-  click-to-view: "&eClick to view"
-  click-to-edit: "&eClick to edit"
-  back: "&cBack"
-  close: "&cClose"
-
-# Time
+# Time Messages
 time:
   days: "{days}d"
   hours: "{hours}h"
@@ -502,3 +92,211 @@ time:
   seconds: "{seconds}s"
   expired: "&cExpired"
   no-deadline: "&7No deadline"
+
+# Common Values
+common:
+  none: "&7None"
+  unknown: "&7Unknown"
+  affirmative: "&aYes"
+  negative: "&cNo"
+  enabled: "&aEnabled"
+  disabled: "&cDisabled"
+  click-to-view: "&eClick to view"
+  click-to-edit: "&eClick to edit"
+  back: "&cBack"
+  close: "&cClose"
+  next: "&aNext →"
+  previous: "← Previous"
+  page: "Page {current}/{total}"
+
+# Listener Messages
+listener:
+  completed-waiting: "&7Contract completed, waiting for verification..."
+  expired-warning: "&cContract expires in {time}!"
+  in-progress: "&7Contract is in progress..."
+
+# Admin Messages
+admin:
+  no-permission: "&cYou don't have permission to use admin commands!"
+  unknown-command: "&cUnknown admin command!"
+  reloading: "&7Reloading configuration..."
+  reload-success: "&aConfiguration reloaded successfully!"
+  reload-failed: "&cFailed to reload configuration: {error}"
+  loading-stats: "&7Loading server statistics..."
+  stats-header: "&6=== Server Statistics ==="
+  active-contracts: "&7Active Contracts: &a{count}"
+  database-status: "&7Database: {status}"
+  economy-status: "&7Economy: {status}"
+  permissions-status: "&7Permissions: {status}"
+  usage-cancel: "&cUsage: /gigadmin cancel <id>"
+  cancelling: "&7Cancelling contract #{id}..."
+  cancel-success: "&aContract #{id} cancelled successfully!"
+  cancel-failed: "&cFailed to cancel contract #{id}!"
+  usage-verify: "&cUsage: /gigadmin verify <id>"
+  verifying: "&7Verifying contract #{id}..."
+  verify-success: "&aContract #{id} verified successfully!"
+  verify-failed: "&cFailed to verify contract #{id}!"
+  usage-setreputation: "&cUsage: /gigadmin setreputation <player> <rating>"
+  rating-range: "&cRating must be between 0.0 and 5.0!"
+  setting-reputation: "&7Setting reputation for {player} to {rating}..."
+  setreputation-success: "&aReputation set successfully!"
+  setreputation-failed: "&cFailed to set reputation: {error}"
+  invalid-rating: "&cInvalid rating!"
+  usage-resetreputation: "&cUsage: /gigadmin resetreputation <player>"
+  resetting-reputation: "&7Resetting reputation for {player}..."
+  resetreputation-success: "&aReputation reset successfully!"
+  resetreputation-failed: "&cFailed to reset reputation: {error}"
+  starting-cleanup: "&7Starting expired contracts cleanup..."
+  cleanup-success: "&aCleaned up {count} expired contracts!"
+  count-range: "&cCount must be between 1 and 100!"
+  invalid-number: "&cInvalid number!"
+  creating-testdata: "&7Creating {count} test contracts..."
+  testdata-success: "&aCreated {count} test contracts successfully!"
+  testdata-hint: "&7Use /gigadmin cleardata to remove test data."
+  testdata-failed: "&cFailed to create test data: {error}"
+  recreating-schema: "&7Recreating database schema..."
+  schema-success: "&aDatabase schema recreated successfully!"
+  schema-failed: "&cFailed to recreate schema: {error}"
+  help-header: "&6=== GigHub Admin Commands ==="
+  help-reload: "&e/gigadmin reload &7- Reload configuration"
+  help-stats: "&e/gigadmin stats &7- Show server statistics"
+  help-cancel: "&e/gigadmin cancel <id> &7- Cancel any contract"
+  help-verify: "&e/gigadmin verify <id> &7- Verify any contract"
+  help-setreputation: "&e/gigadmin setreputation <player> <rating> &7- Set player reputation"
+  help-resetreputation: "&e/gigadmin resetreputation <player> &7- Reset player reputation"
+  help-cleanup: "&e/gigadmin cleanup &7- Clean up expired contracts"
+  help-testdata: "&e/gigadmin testdata <count> &7- Create test contracts"
+  help-cleardata: "&e/gigadmin cleardata &7- Clear all test data"
+
+# Messages (Legacy)
+messages:
+  unknown-command: "{prefix} &cUnknown command!"
+  invalid-usage: "{prefix} &cInvalid usage!"
+  error: "{prefix} &cAn error occurred!"
+  contract-not-found: "{prefix} &cContract not found!"
+  player-not-found: "{prefix} &cPlayer not found!"
+  failed-to-load-contract: "{prefix} &cFailed to load contract!"
+  invalid-contract-id: "{prefix} &cInvalid contract ID!"
+
+# Chat Input Messages
+chat-input:
+  cancelled: "&cInput cancelled."
+  title-too-long: "&cTitle is too long! Maximum {max} characters."
+  title-set: "&aTitle set to: {title}"
+  description-too-long: "&cDescription is too long! Maximum {max} characters."
+  description-set: "&aDescription set."
+  reward-range: "&cReward must be between ${min} and ${max}!"
+  reward-set: "&aReward set to: ${amount}"
+  reward-invalid: "&cInvalid reward amount!"
+  deadline-range: "&cDeadline must be between {min} and {max} days!"
+  deadline-set: "&aDeadline set to {hours} hours."
+  deadline-invalid: "&cInvalid deadline!"
+  gui-error: "&cFailed to open GUI!"
+  error: "&cAn error occurred!"
+
+# Notifications
+notifications:
+  contract-creation-gui: "&7Opening contract creation GUI..."
+  loading-contracts: "&7Loading contracts..."
+  my-contracts-header: "&6=== Your Contracts ==="
+  as-owner: "&7As Owner:"
+  as-contractor: "&7As Contractor:"
+  no-active-contracts: "&7No active contracts found."
+  footer: "&6========================"
+  contract-accepted-success: "{prefix} &aContract accepted successfully!"
+  contract-accepted-owner: "&aYour contract #{id} has been accepted by {player}!"
+  contractor-info: "&7Contractor: {player}"
+  contract-title-info: "&7Title: {title}"
+  contract-completed-success: "{prefix} &aContract marked as completed!"
+  waiting-verification: "&7Waiting for owner verification..."
+  contract-completed-owner: "&aContract #{id} has been completed by {player}!"
+  confirm-instruction: "&7Use /gig confirm {id} to verify and pay."
+  contract-confirmed-success: "{prefix} &aContract confirmed and payment sent!"
+  contract-confirmed-contractor: "&aContract #{id} has been confirmed!"
+  client-info: "&7Client: {player}"
+  payment-sent: "&7Payment of ${amount} sent successfully."
+  contract-cancelled-success: "{prefix} &aContract cancelled successfully."
+  contract-details-header: "&6=== Contract Details ==="
+  contract-id: "&7ID: #{id}"
+  contract-title: "&7Title: &f{title}"
+  contract-description: "&7Description: &f{description}"
+  contract-type: "&7Type: &f{type}"
+  contract-reward: "&7Reward: &a${reward}"
+  contract-status: "&7Status: {status}"
+  contract-owner: "&7Owner: {owner}"
+  contract-contractor: "&7Contractor: {contractor}"
+  contract-deadline: "&7Deadline: {deadline}"
+  contract-use-accept: "&7Use /gig accept {id} to take this contract."
+  reputation-header: "&6=== Reputation ==="
+  reputation-player: "&7Player: {player}"
+  reputation-rating: "&7Rating: &e{rating}/5.0"
+  reputation-completed: "&7Completed: &a{completed}"
+  reputation-failed: "&7Failed: &c{failed}"
+  reputation-success-rate: "&7Success Rate: &e{rate}%"
+  reputation-points: "&7Points: &e{points}"
+  reputation-reviews: "&7Reviews: {reviews}"
+
+# List Messages
+list:
+  loading: "&7Loading contracts..."
+  no-contracts: "&7No contracts found."
+  header: "&6=== Available Contracts (Page {page}) ==="
+  page-info: "&7Page {current} of {total}"
+  contract-entry: |
+    &e#{id} &7- &f{title}
+    &7  Type: {type} &7| Reward: ${reward}
+    &7  Click for details...
+  footer: "&6========================"
+  use-info: "&7Use /gig accept <id> to take a contract."
+
+# Operation Messages
+operation:
+  accepting: "&7Accepting contract..."
+  completing: "&7Marking contract as completed..."
+  confirming: "&7Confirming contract completion..."
+  cancelling: "&7Cancelling contract..."
+  loading-info: "&7Loading contract information..."
+
+# Operation Failed Messages
+operation-failed:
+  accept: "{prefix} &cFailed to accept contract!"
+  complete: "{prefix} &cFailed to complete contract!"
+  confirm: "{prefix} &cFailed to confirm contract!"
+  cancel: "{prefix} &cFailed to cancel contract!"
+
+# Usage Messages
+usage:
+  accept: "&cUsage: /gig accept <id>"
+  complete: "&cUsage: /gig complete <id>"
+  confirm: "&cUsage: /gig confirm <id>"
+  cancel: "&cUsage: /gig cancel <id>"
+  info: "&cUsage: /gig info <id>"
+
+# Help Messages
+help:
+  header: "&6=== GigHub Commands ==="
+  help: "&e/gig help &7- Show this help"
+  create: "&e/gig create &7- Create a new contract"
+  list: "&e/gig list [page] &7- List all contracts"
+  my: "&e/gig my &7- List your contracts"
+  accept: "&e/gig accept <id> &7- Accept a contract"
+  complete: "&e/gig complete <id> &7- Mark contract as completed"
+  confirm: "&e/gig confirm <id> &7- Confirm completed contract"
+  cancel: "&e/gig cancel <id> &7- Cancel your contract"
+  info: "&e/gig info <id> &7- View contract details"
+  reputation: "&e/gig reputation [player] &7- View reputation"
+
+# Success Messages
+success:
+  reloaded: "{prefix} &aConfiguration reloaded!"
+  saved: "{prefix} &aData saved successfully!"
+
+# Footer
+footer: "&6========================"
+
+# Additional Messages
+errors:
+  building-requires-location: "{prefix} &cBuilding contracts require a location!"
+
+no-permission: "{prefix} &cYou don't have permission to use this command!"
+player-only: "{prefix} &cThis command can only be used by a player!"

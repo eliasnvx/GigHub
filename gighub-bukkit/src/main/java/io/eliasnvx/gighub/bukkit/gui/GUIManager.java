@@ -65,17 +65,21 @@ public class GUIManager implements Listener {
         ContractCreationGUI gui = new ContractCreationGUI(plugin, player);
         contractCreationGUIs.put(player.getUniqueId(), gui);
         
-        // Восстанавливаем builder ПЕРЕД открытием GUI
+        // Всегда открываем GUI (внутри open() регистрируются обработчики событий)
+        gui.open();
+
+        // Если есть сохраненный builder, восстанавливаем его ПОСЛЕ открытия
         if (existingBuilder != null) {
             plugin.getLogger().info("[GUIManager] Restoring builder data...");
             gui.setBuilderData(existingBuilder);
-        } else {
-            // Если нет существующего builder, открываем с пустым
-            gui.open();
         }
-        
-        // Регистрируем листенеры
-        plugin.getServer().getPluginManager().registerEvents(gui, plugin);
+    }
+    
+    /**
+     * Получить существующий GUI создания контракта
+     */
+    public ContractCreationGUI getContractCreationGUI(Player player) {
+        return contractCreationGUIs.get(player.getUniqueId());
     }
     
     /**
