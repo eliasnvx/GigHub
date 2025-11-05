@@ -1,0 +1,138 @@
+# ╔═══════════════════════════════════╗
+# ║      GigHub Configuration         ║
+# ║  Player-to-Player Marketplace     ║
+# ╚═══════════════════════════════════╝
+
+general:
+  # Префикс плагина в сообщениях
+  plugin-prefix: "&8[&6GigHub&8]"
+  
+  # Режим отладки (подробные логи)
+  debug-mode: false
+  
+  # Интервал автосохранения (в секундах)
+  auto-save-interval: 300
+
+# Настройки базы данных
+database:
+  # Тип БД: SQLITE, MYSQL, POSTGRESQL
+  type: "SQLITE"
+  
+  # Имя файла для SQLite (без пути, будет в папке плагина)
+  sqlite-filename: "gighub.db"
+  
+  # Настройки для MySQL/PostgreSQL
+  host: "localhost"
+  port: 3306
+  database: "gighub"
+  username: "root"
+  password: "password"
+  
+  # Настройки connection pool
+  pool:
+    size: 10
+    timeout: 30000
+    max-lifetime: 1800000
+
+# Настройки экономики
+economy:
+  # Включить экономику
+  enabled: true
+  
+  # Интеграция с Vault
+  vault-integration: true
+  
+  # Комиссия платформы (в процентах)
+  commission-percentage: 5.0
+  
+  # Включить escrow систему
+  escrow-enabled: true
+  
+  # Комиссия за создание контракта
+  creation-fee: 50.0
+  
+  # Стоимость featured контракта (выделение в списке)
+  featured-cost: 500.0
+  
+  # Стоимость priority контракта (показывается выше)
+  priority-cost: 250.0
+
+# Настройки контрактов
+contracts:
+  # Максимум активных контрактов на игрока (по умолчанию)
+  max-active-per-player: 3
+  
+  # Максимальная длина описания
+  max-description-length: 500
+  
+  # Минимальная награда
+  min-reward: 100
+  
+  # Максимальная награда
+  max-reward: 1000000
+  
+  # Дедлайн по умолчанию (в часах)
+  default-deadline-hours: 48
+  
+  # Множитель для срочных заказов
+  rush-order-multiplier: 1.5
+  
+  # Автоматическая очистка истекших контрактов
+  auto-cleanup-expired: true
+  
+  # Интервал очистки (в часах)
+  cleanup-interval-hours: 24
+
+# Настройки репутации
+reputation:
+  # Включить систему репутации
+  enabled: true
+  
+  # Минимальный рейтинг
+  min-rating: 1
+  
+  # Максимальный рейтинг
+  max-rating: 5
+  
+  # Бонус за успешное выполнение
+  success-bonus: 10
+  
+  # Штраф за провал
+  failure-penalty: 5
+  
+  # Минимум контрактов для отображения рейтинга
+  minimum-contracts-for-rating: 3
+
+# Настройки уведомлений
+notifications:
+  # Включить внутриигровые уведомления
+  in-game: true
+  
+  # Discord webhook URL (оставьте пустым для отключения)
+  discord-webhook: ""
+  
+  # Включить звуки
+  sound-enabled: true
+  
+  # Звук уведомления
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+  
+  # Громкость (0.0 - 1.0)
+  volume: 1.0
+  
+  # Тон (0.5 - 2.0)
+  pitch: 1.0
+
+# Настройки GUI
+gui:
+  # Размер главного меню (9, 18, 27, 36, 45, 54)
+  main-menu-size: 54
+  
+  # Контрактов на страницу
+  contracts-per-page: 28
+  
+  # Включить анимации
+  animations-enabled: true
+  
+  # Обновление GUI (в тиках, 20 = 1 секунда)
+  update-interval: 20

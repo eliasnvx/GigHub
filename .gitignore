@@ -1,0 +1,76 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Database files (for testing)
+*.db
+*.db-journal
+
+# Build output
+*.jar
+!gradle-wrapper.jar
+
+# Temporary files
+*.class
+*.ctxt
+.mtj.tmp/
+hs_err_pid*
+
+# Documentation files (keep only in repo)
+permissions-integration.md
+permissions-examples.md
+
+# Shell scripts (development tools)
+*.sh
+!quick-dev.sh
+
+# Test server
+test-server/
+
+# Plugin jars (when building)
+plugins/*.jar
+!plugins/GigHub.jar

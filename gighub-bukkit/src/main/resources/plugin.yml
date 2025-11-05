@@ -1,0 +1,167 @@
+name: GigHub
+version: ${project.version}
+main: io.eliasnvx.gighub.bukkit.GigHubPlugin
+api-version: 1.20
+author: eliasnvx
+description: Player-to-player freelance marketplace for Minecraft
+website: https://github.com/eliasnvx/gighub
+
+softdepend: [Vault]
+
+commands:
+  gig:
+    description: Main GigHub command
+    usage: /<command> [create|list|my|accept|complete|cancel|info|reputation]
+    aliases: [gighub, contract]
+  
+  gigadmin:
+    description: GigHub admin commands
+    usage: /<command> [reload|cancel|verify|setreputation|stats|cleanup]
+    permission: gighub.admin
+    aliases: [gha, gighubaadmin]
+
+permissions:
+  # Основные права
+  gighub.use:
+    description: Базовый доступ к GigHub
+    default: true
+  
+  gighub.contract.create:
+    description: Создание контрактов
+    default: true
+  
+  gighub.contract.accept:
+    description: Принятие контрактов
+    default: true
+  
+  gighub.contract.complete:
+    description: Завершение контрактов
+    default: true
+  
+  gighub.contract.cancel:
+    description: Отмена своих контрактов
+    default: true
+  
+  gighub.contract.view:
+    description: Просмотр контрактов
+    default: true
+  
+  gighub.gui:
+    description: Доступ к GUI
+    default: true
+  
+  # Типы контрактов
+  gighub.contract.create.item:
+    description: Создание контрактов на предметы
+    default: true
+  
+  gighub.contract.create.building:
+    description: Создание контрактов на строительство
+    default: true
+  
+  gighub.contract.create.combat:
+    description: Создание контрактов на бой
+    default: true
+  
+  gighub.contract.create.mining:
+    description: Создание контрактов на добычу
+    default: true
+  
+  gighub.contract.create.farming:
+    description: Создание контрактов на фермерство
+    default: true
+  
+  # Лимиты
+  gighub.limit.contracts.3:
+    description: Максимум 3 активных контракта
+    default: true
+  
+  gighub.limit.contracts.5:
+    description: Максимум 5 активных контрактов
+    default: false
+  
+  gighub.limit.contracts.10:
+    description: Максимум 10 активных контрактов
+    default: false
+  
+  gighub.limit.contracts.unlimited:
+    description: Без лимита контрактов
+    default: false
+  
+  # Репутация
+  gighub.review.leave:
+    description: Оставлять отзывы
+    default: true
+  
+  gighub.review.view:
+    description: Просматривать отзывы
+    default: true
+  
+  # Премиум функции
+  gighub.premium.featured:
+    description: Выделение контрактов
+    default: false
+  
+  gighub.premium.priority:
+    description: Приоритет в списке
+    default: false
+  
+  gighub.premium.notifications:
+    description: Расширенные уведомления
+    default: false
+  
+  # Админ права
+  gighub.admin:
+    description: Полный административный доступ
+    default: op
+    children:
+      gighub.admin.reload: true
+      gighub.admin.stats: true
+      gighub.admin.contract.delete: true
+      gighub.admin.contract.edit: true
+      gighub.admin.contract.force: true
+      gighub.admin.reputation.reset: true
+      gighub.admin.reputation.set: true
+      gighub.admin.escrow.manage: true
+      gighub.admin.bypass.limits: true
+      gighub.admin.debug: true
+  
+  gighub.admin.reload:
+    description: Перезагрузка конфига
+    default: op
+  
+  gighub.admin.stats:
+    description: Статистика плагина
+    default: op
+  
+  gighub.admin.contract.delete:
+    description: Удаление любых контрактов
+    default: op
+  
+  gighub.admin.contract.edit:
+    description: Редактирование любых контрактов
+    default: op
+  
+  gighub.admin.contract.force:
+    description: Принудительное завершение
+    default: op
+  
+  gighub.admin.reputation.reset:
+    description: Сброс репутации
+    default: op
+  
+  gighub.admin.reputation.set:
+    description: Установка репутации
+    default: op
+  
+  gighub.admin.escrow.manage:
+    description: Управление эскроу
+    default: op
+  
+  gighub.admin.bypass.limits:
+    description: Обход лимитов
+    default: op
+  
+  gighub.admin.debug:
+    description: Режим отладки
+    default: op
