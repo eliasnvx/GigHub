@@ -2,9 +2,9 @@
 
 <div align="center">
 
-![GigHub Logo](https://img.shields.io/badge/G oigHub-Contract%20Marketplace-brightgreen?style=for-the-badge)
+![GigHub Logo](https://img.shields.io/badge/GoigHub-Contract%20Marketplace-brightgreen?style=for-the-badge)
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.4+-orange?style=for-the-badge)
-![License](https://img.shields.io/badge/L oLicense-MIT-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/LoLicense-MIT-blue?style=for-the-badge)
 
 **A comprehensive Minecraft plugin that creates a dynamic marketplace for players to create, accept, and complete contracts with escrow-based payment protection.**
 
