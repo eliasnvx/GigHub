@@ -10,6 +10,10 @@ env:
   JAVA_VERSION: '21'
   MAVEN_OPTS: '-Xmx1024m'
 
+permissions:
+  checks: write
+  pull-requests: write
+
 jobs:
   test:
     name: 🧪 Run Tests
