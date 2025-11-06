@@ -173,7 +173,7 @@ jobs:
         echo "📋 All files in release:"
         find ./release/ -type f -name "*.jar" 2>/dev/null || echo "No JAR files found"
         
-        JAR_FILE="./release/GigHub-${{ needs.release.outputs.version }}.jar"
+        JAR_FILE="./release/gighub-bukkit/target/GigHub-${{ needs.release.outputs.version }}.jar"
         echo "🎯 Looking for: $JAR_FILE"
         
         if [ ! -f "$JAR_FILE" ]; then
