@@ -5,6 +5,9 @@
 ![GigHub Logo](https://img.shields.io/badge/GoigHub-Contract%20Marketplace-brightgreen?style=for-the-badge)
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.4+-orange?style=for-the-badge)
 ![License](https://img.shields.io/badge/LoLicense-MIT-blue?style=for-the-badge)
+[![Modrinth](https://img.shields.io/badge/Modrinth-Download-green?style=for-the-badge&logo=modrinth)](https://modrinth.com/plugin/gighub)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Download-orange?style=for-the-badge&logo=curseforge)](https://curseforge.com/minecraft/bukkit-plugins/gighub-contract-job-management-system)
+[![SpigotMC](https://img.shields.io/badge/SpigotMC-Download-yellow?style=for-the-badge&logo=spigotmc)](https://www.spigotmc.org/resources/gighub-contract-job-management-system.129999/)
 
 **A comprehensive Minecraft plugin that creates a dynamic marketplace for players to create, accept, and complete contracts with escrow-based payment protection.**
 
