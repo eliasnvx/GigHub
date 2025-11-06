@@ -9,6 +9,9 @@ env:
   JAVA_VERSION: '21'
   MAVEN_OPTS: '-Xmx1024m'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: 🚀 Create Release
