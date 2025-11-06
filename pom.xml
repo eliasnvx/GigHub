@@ -23,6 +23,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
         
+        <!-- Dynamic version for CI/CD -->
+        <revision>${project.version}</revision>
+        
         <!-- Dependency versions -->
         <spigot.version>1.20.4-R0.1-SNAPSHOT</spigot.version>
         <vault.version>1.7.1</vault.version>
@@ -121,7 +124,40 @@
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.5.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+        
+        <plugins>
+            <!-- Flatten plugin for CI/CD version management -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

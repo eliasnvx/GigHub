@@ -1,0 +1,281 @@
+name: 📚 Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  check-docs:
+    name: 🔍 Check Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🔍 Check Markdown Files
+      run: |
+        echo "🔍 Checking documentation files..."
+        
+        # Find all markdown files
+        find . -name "*.md" -type f | head -10
+        
+        # Check for README
+        if [ -f "README.md" ]; then
+          echo "✅ README.md found"
+        else
+          echo "❌ README.md missing"
+          exit 1
+        fi
+        
+        # Check for common documentation sections
+        if grep -q "## Installation" README.md; then
+          echo "✅ Installation section found"
+        else
+          echo "⚠️ Installation section missing"
+        fi
+        
+        if grep -q "## Usage" README.md; then
+          echo "✅ Usage section found"
+        else
+          echo "⚠️ Usage section missing"
+        fi
+        
+        # Check for broken links
+        echo "🔗 Checking for broken links..."
+        for file in *.md; do
+          if [ -f "$file" ]; then
+            echo "📄 Checking: $file"
+            # Basic link check (can be enhanced with markdown-link-check)
+            grep -o '\[.*\]([^)]*)' "$file" | head -5
+          fi
+        done
+    
+    - name: 📊 Documentation Statistics
+      run: |
+        echo "📊 Documentation Statistics:"
+        
+        # Count markdown files
+        MD_FILES=$(find . -name "*.md" -type f | wc -l)
+        echo "📄 Markdown files: $MD_FILES"
+        
+        # Count lines of documentation
+        DOC_LINES=$(find . -name "*.md" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')
+        echo "📝 Total documentation lines: $DOC_LINES"
+        
+        # Check README size
+        if [ -f "README.md" ]; then
+          README_SIZE=$(wc -l < README.md)
+          echo "📖 README lines: $README_SIZE"
+        fi
+    
+    - name: 📦 Upload Documentation Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation-report
+        path: |
+          *.md
+        retention-days: 7
+
+  spell-check:
+    name: 🔤 Spell Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🔤 Install Spell Check Tools
+      run: |
+        # Install aspell for spell checking
+        sudo apt-get update
+        sudo apt-get install -y aspell aspell-en
+    
+    - name: 🔤 Run Spell Check
+      run: |
+        echo "🔤 Running spell check on documentation..."
+        
+        # Create spell check configuration
+        cat > .aspell.conf << EOF
+        lang en
+        mode markdown
+        add-extra-dicts ./custom-dict.txt
+        EOF
+        
+        # Create custom dictionary for technical terms
+        cat > custom-dict.txt << EOF
+        GigHub
+        Minecraft
+        Bukkit
+        Spigot
+        Paper
+        plugin
+        plugins
+        GUI
+        API
+        CI/CD
+        GitHub
+        Actions
+        Maven
+        Java
+        SQLite
+        MySQL
+        PostgreSQL
+        HikariCP
+        Vault
+        escrow
+        repo
+        repos
+        dev
+        devs
+        EOF
+        
+        # Spell check main documentation files
+        for file in README.md *.md; do
+          if [ -f "$file" ]; then
+            echo "🔤 Checking: $file"
+            # Extract text content and spell check
+            cat "$file" | aspell --personal=./custom-dict.txt list | sort -u > "spell-errors-$file.txt"
+            
+            if [ -s "spell-errors-$file.txt" ]; then
+              echo "⚠️ Spell errors found in $file:"
+              cat "spell-errors-$file.txt"
+            else
+              echo "✅ No spell errors in $file"
+            fi
+          fi
+        done
+    
+    - name: 📊 Upload Spell Check Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: spell-check-report
+        path: spell-errors-*.txt
+        retention-days: 7
+
+  generate-docs:
+    name: 📚 Generate Documentation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: 📚 Generate API Documentation
+      run: |
+        echo "📚 Generating API documentation..."
+        
+        # Create docs directory structure
+        mkdir -p docs/api docs/guides docs/reference
+        
+        # Generate Javadoc (if sources exist)
+        if [ -d "src/main/java" ]; then
+          echo "📖 Generating Javadoc..."
+          mvn javadoc:javadoc -DskipTests -q || echo "Javadoc generation failed"
+          
+          if [ -d "target/site/apidocs" ]; then
+            cp -r target/site/apidocs/* docs/api/
+            echo "✅ Javadoc generated"
+          fi
+        fi
+        
+        # Create comprehensive documentation index
+        cat > docs/README.md << EOF
+        # 📚 GigHub Documentation
+        
+        ## 📖 Documentation Index
+        
+        ### 🚀 Getting Started
+        - [Installation Guide](../README.md#installation)
+        - [Quick Start](../README.md#quick-start)
+        - [Configuration](../README.md#configuration)
+        
+        ### 📚 API Documentation
+        - [Java API Reference](api/) - Complete API documentation
+        - [Javadoc](api/) - Generated Javadoc
+        
+        ### 📋 Guides
+        - [User Guide](guides/user-guide.md)
+        - [Admin Guide](guides/admin-guide.md)
+        - [Developer Guide](guides/developer-guide.md)
+        
+        ### 🔧 Reference
+        - [Commands](reference/commands.md)
+        - [Permissions](reference/permissions.md)
+        - [Configuration](reference/configuration.md)
+        - [Database Schema](reference/database-schema.md)
+        
+        ### 🚀 CI/CD
+        - [GitHub Actions](../.github/workflows/)
+        - [Build Process](../.github/workflows/ci.yml)
+        - [Release Process](../.github/workflows/release.yml)
+        
+        ---
+        
+        *Documentation generated on $(date)*
+        EOF
+        
+        # Create placeholder guides
+        cat > docs/guides/user-guide.md << EOF
+        # 👥 User Guide
+        
+        ## 🚀 Getting Started
+        
+        GigHub allows players to create and accept contracts with secure escrow payments.
+        
+        ### 📝 Creating Contracts
+        
+        1. Use \`/gig create\` to open the contract creation GUI
+        2. Select contract type (Mining, Building, Combat, etc.)
+        3. Fill in contract details
+        4. Set reward amount
+        5. Submit contract
+        
+        ### 🔍 Finding Contracts
+        
+        1. Use \`/gig list\` to browse available contracts
+        2. Filter by type, reward, or deadline
+        3. Click on a contract to view details
+        4. Use \`/gig accept <id>\` to accept a contract
+        
+        ### ✅ Completing Contracts
+        
+        1. Complete the contract requirements
+        2. Use \`/gig complete <id>\` to mark as complete
+        3. Wait for contract creator to verify
+        4. Receive payment automatically
+        
+        ---
+        
+        *For more details, see the main [README](../../README.md)*
+        EOF
+        
+        echo "✅ Documentation generated"
+    
+    - name: 📦 Upload Generated Documentation
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-docs
+        path: docs/
+        retention-days: 7
+    
+    - name: 📊 Documentation Summary
+      run: |
+        echo "📊 Documentation Summary:"
+        echo "📁 Generated files:"
+        find docs/ -type f -name "*.md" | head -10
+        echo "📄 Total documentation files: $(find docs/ -name "*.md" | wc -l)"

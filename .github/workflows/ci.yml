@@ -1,0 +1,189 @@
+name: 🏗️ Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  JAVA_VERSION: '21'
+  MAVEN_OPTS: '-Xmx1024m'
+
+jobs:
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for version info
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🔍 Verify Maven Version
+      run: mvn --version
+    
+    - name: 🧪 Run Tests
+      run: mvn clean test -B
+    
+    - name: 📊 Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          **/target/surefire-reports/
+          **/target/failsafe-reports/
+        retention-days: 7
+    
+    - name: 📈 Test Coverage Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Maven Tests
+        path: '**/target/surefire-reports/*.xml'
+        reporter: java-junit
+
+  build:
+    name: 🔨 Build Plugin
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🔨 Build Project
+      run: mvn clean package -DskipTests -B
+    
+    - name: 📦 Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: gighub-plugin
+        path: gighub-bukkit/target/GigHub-*.jar
+        retention-days: 7
+    
+    - name: 📊 Check Plugin Size
+      run: |
+        echo "🔍 Plugin size analysis:"
+        ls -lh gighub-bukkit/target/*.jar
+        SIZE=$(stat -c%s gighub-bukkit/target/GigHub-*.jar)
+        echo "📏 Size: $SIZE bytes"
+        if [ $SIZE -gt 15728640 ]; then  # 15MB
+          echo "⚠️ Warning: Plugin size exceeds 15MB"
+        else
+          echo "✅ Plugin size is acceptable"
+        fi
+
+  validate:
+    name: ✅ Validate Plugin
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: 📥 Download Build Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: gighub-plugin
+        path: ./artifacts
+    
+    - name: 🔍 Validate Plugin JAR
+      run: |
+        echo "🔍 Plugin validation:"
+        for jar in ./artifacts/*.jar; do
+          echo "📦 Checking: $jar"
+          if jar tf "$jar" | grep -q "plugin.yml"; then
+            echo "✅ plugin.yml found"
+          else
+            echo "❌ plugin.yml missing"
+            exit 1
+          fi
+          
+          # Check main class
+          if jar tf "$jar" | grep -q "GigHubPlugin.class"; then
+            echo "✅ Main class found"
+          else
+            echo "❌ Main class missing"
+            exit 1
+          fi
+          
+          # Check size
+          SIZE=$(stat -c%s "$jar")
+          echo "📏 Size: $SIZE bytes"
+        done
+
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🔍 Run Trivy Vulnerability Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: 📊 Upload Trivy Scan Results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  dependency-check:
+    name: 📦 Dependency Check
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🔍 Check for Dependency Updates
+      run: |
+        echo "📦 Checking for outdated dependencies..."
+        mvn versions:display-dependency-updates -DoutputFile=dependency-updates.txt
+        
+        if [ -s dependency-updates.txt ]; then
+          echo "📋 Available updates:"
+          cat dependency-updates.txt
+        else
+          echo "✅ All dependencies are up to date"
+        fi
+    
+    - name: 📊 Upload Dependency Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dependency-updates
+        path: dependency-updates.txt
+        retention-days: 7

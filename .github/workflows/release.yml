@@ -1,0 +1,253 @@
+name: 🚀 Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0, v1.1.0, etc.
+
+env:
+  JAVA_VERSION: '21'
+  MAVEN_OPTS: '-Xmx1024m'
+
+jobs:
+  release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      jar_name: ${{ steps.build.outputs.jar_name }}
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for changelog
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🏷️ Extract Version from Tag
+      id: version
+      run: |
+        # Extract version from git tag (v1.0.0 -> 1.0.0)
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "🏷️ Release version: $VERSION"
+        
+        # Validate version format
+        if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "❌ Invalid version format: $VERSION (expected x.y.z)"
+          exit 1
+        fi
+    
+    - name: 🔨 Build Release JAR
+      id: build
+      run: |
+        echo "🔨 Building version ${{ steps.version.outputs.version }}"
+        
+        # Build with extracted version
+        mvn clean package -DskipTests -Drevision=${{ steps.version.outputs.version }} -B
+        
+        # Find the built JAR
+        JAR_FILE=$(find gighub-bukkit/target -name "GigHub-*.jar" -not -name "*-sources.jar" | head -n1)
+        JAR_NAME=$(basename "$JAR_FILE")
+        
+        echo "jar_name=$JAR_NAME" >> $GITHUB_OUTPUT
+        echo "📦 Built JAR: $JAR_NAME"
+        
+        # Rename JAR to include version
+        mv "$JAR_FILE" "gighub-bukkit/target/GigHub-${{ steps.version.outputs.version }}.jar"
+        
+        # Verify JAR
+        if [ ! -f "gighub-bukkit/target/GigHub-${{ steps.version.outputs.version }}.jar" ]; then
+          echo "❌ Build failed - JAR not found"
+          exit 1
+        fi
+    
+    - name: 📊 Generate Changelog
+      id: changelog
+      run: |
+        # Generate changelog since last tag
+        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        
+        if [ -n "$PREVIOUS_TAG" ]; then
+          echo "📝 Generating changelog from $PREVIOUS_TAG to ${{ steps.version.outputs.version }}"
+          CHANGELOG=$(git log --pretty=format:"- %s (%h)" $PREVIOUS_TAG..HEAD)
+        else
+          echo "📝 Generating changelog for first release"
+          CHANGELOG=$(git log --pretty=format:"- %s (%h)")
+        fi
+        
+        # Save changelog to file
+        echo "$CHANGELOG" > CHANGELOG.md
+        
+        # Add release notes header
+        cat > RELEASE_NOTES.md << EOF
+        # 🎯 GigHub v${{ steps.version.outputs.version }}
+        
+        ## 📋 Release Notes
+        
+        $CHANGELOG
+        
+        ## 📦 Installation
+        
+        1. Download \`GigHub-${{ steps.version.outputs.version }}.jar\`
+        2. Place in your \`/plugins/\` folder
+        3. Restart server
+        4. Enjoy! 🎉
+        
+        ## ⚠️ Requirements
+        
+        - Minecraft 1.20.4+
+        - Java 17+
+        - Vault Plugin
+        - Economy Plugin (EssentialsX, CMI, etc.)
+        
+        ---
+        
+        🐛 **Bug Reports**: [GitHub Issues](https://github.com/eliasnvx/GigHub/issues)
+        💡 **Suggestions**: [GitHub Discussions](https://github.com/eliasnvx/GigHub/discussions)
+        EOF
+        
+        echo "changelog<<EOF" >> $GITHUB_OUTPUT
+        echo "$CHANGELOG" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: 🚀 Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.version.outputs.version }}
+        name: 🎯 GigHub v${{ steps.version.outputs.version }}
+        body_path: RELEASE_NOTES.md
+        files: |
+          gighub-bukkit/target/GigHub-${{ steps.version.outputs.version }}.jar
+          CHANGELOG.md
+        draft: false
+        prerelease: ${{ contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'rc') }}
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: 📊 Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-${{ steps.version.outputs.version }}
+        path: |
+          gighub-bukkit/target/GigHub-${{ steps.version.outputs.version }}.jar
+          RELEASE_NOTES.md
+          CHANGELOG.md
+        retention-days: 30
+    
+    - name: ✅ Release Summary
+      run: |
+        echo "🎉 Release created successfully!"
+        echo "📦 Version: ${{ steps.version.outputs.version }}"
+        echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
+        echo "📏 JAR Size: $(stat -c%s gighub-bukkit/target/GigHub-${{ steps.version.outputs.version }}.jar) bytes"
+
+  test-release:
+    name: 🧪 Test Release JAR
+    runs-on: ubuntu-latest
+    needs: release
+    
+    steps:
+    - name: 📥 Download Release Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: release-${{ needs.release.outputs.version }}
+        path: ./release
+    
+    - name: 🔍 Validate Release JAR
+      run: |
+        echo "🔍 Validating release JAR..."
+        JAR_FILE="./release/GigHub-${{ needs.release.outputs.version }}.jar"
+        
+        if [ ! -f "$JAR_FILE" ]; then
+          echo "❌ Release JAR not found"
+          exit 1
+        fi
+        
+        # Check JAR structure
+        echo "📦 JAR contents:"
+        jar tf "$JAR_FILE" | head -10
+        
+        # Verify plugin.yml
+        if jar tf "$JAR_FILE" | grep -q "plugin.yml"; then
+          echo "✅ plugin.yml found"
+        else
+          echo "❌ plugin.yml missing"
+          exit 1
+        fi
+        
+        # Check main class
+        if jar tf "$JAR_FILE" | grep -q "GigHubPlugin.class"; then
+          echo "✅ Main class found"
+        else
+          echo "❌ Main class missing"
+          exit 1
+        fi
+        
+        # Check size
+        SIZE=$(stat -c%s "$JAR_FILE")
+        echo "📏 JAR Size: $SIZE bytes"
+        
+        if [ $SIZE -gt 20971520 ]; then  # 20MB
+          echo "⚠️ Warning: JAR size exceeds 20MB"
+        else
+          echo "✅ JAR size is acceptable"
+        fi
+
+  notify:
+    name: 📢 Notify Release
+    runs-on: ubuntu-latest
+    needs: [release, test-release]
+    if: success()
+    
+    steps:
+    - name: 🎉 Release Success
+      run: |
+        echo "🎉 GigHub v${{ needs.release.outputs.version }} released successfully!"
+        echo "📦 Download: https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.version }}/GigHub-${{ needs.release.outputs.version }}.jar"
+        echo "🔗 Release page: https://github.com/${{ github.repository }}/releases/tag/v${{ needs.release.outputs.version }}"
+        
+        # Create release summary for PR/issue comments
+        cat > release-summary.md << EOF
+        ## 🎉 New Release Available!
+        
+        **GigHub v${{ needs.release.outputs.version }}** has been released! 🚀
+        
+        ### 📦 Download
+        - [Direct Download](https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.version }}/GigHub-${{ needs.release.outputs.version }}.jar)
+        - [Release Page](https://github.com/${{ github.repository }}/releases/tag/v${{ needs.release.outputs.version }})
+        
+        ### 📋 Installation
+        1. Download the JAR file
+        2. Place in \`/plugins/\` folder
+        3. Restart server
+        
+        ### ⚠️ Requirements
+        - Minecraft 1.20.4+
+        - Java 17+
+        - Vault Plugin
+        - Economy Plugin
+        
+        ---
+        
+        🐛 [Report Issues](https://github.com/${{ github.repository }}/issues) | 
+        💡 [Request Features](https://github.com/${{ github.repository }}/discussions) | 
+        ⭐ [Star on GitHub](https://github.com/${{ github.repository}})
+        EOF
+        
+        echo "📄 Release summary created"
+    
+    - name: 📊 Upload Release Summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-summary
+        path: release-summary.md
+        retention-days: 90

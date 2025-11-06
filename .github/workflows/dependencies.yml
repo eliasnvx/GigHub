@@ -1,0 +1,158 @@
+name: 📦 Dependency Management
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Type of update'
+        required: true
+        default: 'minor'
+        type: choice
+        options:
+        - minor
+        - major
+        - patch
+
+env:
+  JAVA_VERSION: '21'
+
+jobs:
+  check-updates:
+    name: 🔍 Check for Updates
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🔍 Check for Dependency Updates
+      run: |
+        echo "📦 Checking for dependency updates..."
+        
+        # Check for updates
+        mvn versions:display-dependency-updates -DoutputFile=dependency-updates.txt
+        
+        # Check for plugin updates
+        mvn versions:display-plugin-updates -DoutputFile=plugin-updates.txt
+        
+        # Check for property updates
+        mvn versions:display-property-updates -DoutputFile=property-updates.txt
+        
+        # Create summary
+        cat > update-summary.md << EOF
+        # 📦 Dependency Update Report
+        
+        Generated on: $(date)
+        
+        ## 📋 Dependency Updates
+        \`\`\`
+        $(cat dependency-updates.txt)
+        \`\`\`
+        
+        ## 🔌 Plugin Updates
+        \`\`\`
+        $(cat plugin-updates.txt)
+        \`\`\`
+        
+        ## ⚙️ Property Updates
+        \`\`\`
+        $(cat property-updates.txt)
+        \`\`\`
+        EOF
+    
+    - name: 📊 Upload Update Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-reports
+        path: |
+          dependency-updates.txt
+          plugin-updates.txt
+          property-updates.txt
+          update-summary.md
+        retention-days: 7
+    
+    - name: 📢 Create Issue for Updates
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          try {
+            const summary = fs.readFileSync('update-summary.md', 'utf8');
+            const dependencyUpdates = fs.readFileSync('dependency-updates.txt', 'utf8');
+            
+            // Only create issue if there are actual updates
+            if (dependencyUpdates.includes('No dependencies in Dependencies have newer versions')) {
+              console.log('✅ No dependency updates found');
+              return;
+            }
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '📦 Dependency Updates Available',
+              body: summary,
+              labels: ['dependencies', 'enhancement']
+            });
+            
+            console.log('✅ Dependency update issue created');
+          } catch (error) {
+            console.log('⚠️ Error checking updates:', error.message);
+          }
+
+  update-dependencies:
+    name: 🔄 Update Dependencies
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: ☕ Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: 🔄 Update Dependencies
+      run: |
+        echo "🔄 Updating dependencies (type: ${{ github.event.inputs.update_type }})"
+        
+        case "${{ github.event.inputs.update_type }}" in
+          "minor")
+            mvn versions:use-latest-releases -DallowMinorUpdates=true
+            ;;
+          "major")
+            mvn versions:use-latest-releases
+            ;;
+          "patch")
+            mvn versions:use-latest-releases -DallowPatchUpdates=true
+            ;;
+        esac
+        
+        # Update properties
+        mvn versions:update-properties -DallowMinorUpdates=true
+        
+        # Commit changes
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git diff --staged --quiet || git commit -m "📦 Update dependencies"
+        git push
