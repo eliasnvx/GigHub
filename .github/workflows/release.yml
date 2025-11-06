@@ -39,9 +39,9 @@ jobs:
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "🏷️ Release version: $VERSION"
         
-        # Validate version format
-        if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "❌ Invalid version format: $VERSION (expected x.y.z)"
+        # Validate version format (supports x.y.z and x.y.z-alpha, x.y.z-beta, x.y.z-rc, etc.)
+        if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+          echo "❌ Invalid version format: $VERSION (expected x.y.z or x.y.z-suffix)"
           exit 1
         fi
     
