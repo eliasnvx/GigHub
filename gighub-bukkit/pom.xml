@@ -91,6 +91,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>com.zaxxer.hikari</pattern>
@@ -105,6 +106,19 @@
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
                                     </excludes>
+                                </filter>
+                                <!-- Only include necessary classes from dependencies -->
+                                <filter>
+                                    <artifact>org.xerial:sqlite-jdbc</artifact>
+                                    <includes>
+                                        <include>org/sqlite/**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.zaxxer.hikari:HikariCP</artifact>
+                                    <includes>
+                                        <include>com/zaxxer/hikari/**</include>
+                                    </includes>
                                 </filter>
                             </filters>
                         </configuration>
