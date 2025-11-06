@@ -168,10 +168,18 @@ jobs:
     - name: 🔍 Validate Release JAR
       run: |
         echo "🔍 Validating release JAR..."
+        echo "📁 Release directory contents:"
+        ls -la ./release/
+        echo "📋 All files in release:"
+        find ./release/ -type f -name "*.jar" 2>/dev/null || echo "No JAR files found"
+        
         JAR_FILE="./release/GigHub-${{ needs.release.outputs.version }}.jar"
+        echo "🎯 Looking for: $JAR_FILE"
         
         if [ ! -f "$JAR_FILE" ]; then
           echo "❌ Release JAR not found"
+          echo "🔍 Available JAR files:"
+          find ./release/ -name "*.jar" 2>/dev/null || echo "No JAR files in release directory"
           exit 1
         fi
         
